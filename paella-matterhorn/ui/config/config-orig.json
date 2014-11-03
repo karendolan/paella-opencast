@@ -1,0 +1,56 @@
+{
+	"player":{
+		"defaultProfile": "full",
+		"methods":[{"name":"streaming","enabled":true},
+				   {"name":"html","enabled":true},
+				   {"name":"flash","enabled":true},
+				   {"name":"image","enabled":true}],
+		"stream0Audio":true,
+		"stream1Audio":false				   
+	},
+	"editor":{
+			"enabled":true
+	},
+	"defaultProfile":"slide_professor",
+	"data":{
+		"enabled":true,
+		"dataDelegates":{
+			"default":"MHAnnotationServiceDefaultDataDelegate",
+			"trimming": "MHAnnotationServiceTrimmingDataDelegate",
+			"footprints": "MHFootPrintsDataDelegate",
+			"captions": "MHCaptionsDataDelegate",
+			"SingleVideoExport": "MHAnnotationServiceVideoExportDelegate",
+			"MultipleVideoExport": "MHAnnotationServiceVideoExportDelegate",
+			"userInfo": "UserDataDelegate"
+		}
+	},
+	"plugins":{
+		"defaultConfig":{"enabled":true},
+		"list":{
+			"es.upv.paella.test.videoLoadPlugin": {"enabled": false},
+
+			"es.upv.paella.userTrackingCollectorPlugIn": {"enabled": true, "heartBeatTime": 30000},
+			"es.upv.paella.userTrackingGoogleAnalyticsSaverPlugIn": {"enabled":true, "trackingID": "UA-26470475-8", "trackingEvents": false},
+			"es.upv.paella.ShowEditorPlugin":{"enabled":true,"alwaysVisible":true,"editorPage":"editor.html"},
+			"es.upv.paella.TrimmingPlayerPlugin":{"enabled":true},
+			"es.upv.paella.multipleQualitiesPlugin": {"enabled": true},
+			"es.upv.paella.FootPrintsPlugin": {"enabled": true, "skin": "custom", "fillStyle": "#faa166", "strokeStyle": "#fa8533"},
+			"es.upv.paella.descriptionPlugin": {"enabled":false},
+			"es.upv.paella.commentsPlugin": {"enabled": false },
+            "es.upv.paella.helpPlugin":{"enabled":true, "langs":["en"]},
+			
+			"es.upv.paella.editor.TrimmingTrackPlugin":{"enabled":true},
+			"es.upv.paella.editor.SnapShotsEditorPlugin": {"enabled": true},
+			"es.upv.paella.editor.trackCaptions": {"enabled":false},
+						
+			"es.upv.paella.matterhorn.editor.MultipleVideoExportEditorPlugin": {"enabled":true},
+			"es.upv.paella.matterhorn.editor.SingleVideoExportEditorPlugin": {"enabled":true},
+			"es.upv.paella.matterhorn.userTrackingSaverPlugIn": {"enabled": true },
+			"es.upv.paella.matterhorn.downloadsPlugin": {"enabled": false },
+			
+			
+			"es.upv.paella.matterhorn.publishPlugin": {"enabled": false, "defaultValue":false},
+			"es.upv.paella.matterhorn.publishEditorPlugin": {"enabled": false, "defaultValue":false}			
+		}
+	}
+}

@@ -2,3 +2,12 @@
 *~
 node_modules
 build
+
+# Ignore dev build tools, node.js supporting file
+node/*
+node_modules/*
+submodules/paella/node_modules/*
+
+# Ignore target directories, but keep the build directories
+target/*
+
