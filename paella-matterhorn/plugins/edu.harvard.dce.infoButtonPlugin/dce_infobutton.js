@@ -51,7 +51,16 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
       case ('All Course Videos'):
         if (paella.matterhorn && paella.matterhorn.episode && paella.matterhorn.episode.dcIsPartOf){
           var seriesId = paella.matterhorn.episode.dcIsPartOf;
-          location.href = '../ui/publicationListing.shtml?seriesId=' + seriesId;
+          // MATT-1373 reference combined pub list page when series looks like the DCE <academicYear><term><crn>
+          if (seriesId.match('^[0-9]{11}$')) {
+            var academicYear = seriesId.slice(0,4);
+            var academicTerm = seriesId.slice(4,6);
+            var courseCrn = seriesId.slice(6,11);
+            location.href = '../ui/#/' + academicYear + '/' + academicTerm + '/' + courseCrn;
+          } else {
+             // For an unknown series signature, reference the old 1.4x MH only, pub list page
+             location.href = '../ui/publicationListing.shtml?seriesId=' + seriesId;
+          }
         } 
         else {
           message = 'No other lectures found.';
