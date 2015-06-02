@@ -18,6 +18,11 @@ div#playerContainer_controls_playback_playbackBar{
   background: black no-repeat url("../images/dce_masthead_ext.png") 0 -50px;
 }
 
+/* Summer school banner background is white */
+#dceHeader.summer {
+     background: #ffffff url("../images/dce_masthead_sum.png") no-repeat scroll 5px -50px;
+}
+
 #dceHeader:hover {
   background-position: 0px 0px;
 }
@@ -52,3 +57,10 @@ div#playerContainer_controls_playback_playbackBar{
   font-size: 0.7em;
   font-weight: normal;
 }
+
+/* Summer School banner text is longer and higher than Ext */
+#dceHeader.summer .seriesInfo {
+  left:510px;
+  top: 12px;
+}
+

@@ -14,7 +14,7 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
     var thisClass = this;
 
     var popUp = jQuery('<div id="dce-info-popup"></div>');
-    var buttonActions =[ 'Help with this player', 'Feedback', 'All Course Videos' ];
+    var buttonActions =[ 'Help with this player', 'Report a problem', 'Feedback', 'All Course Videos' ];
 
     buttonActions.forEach(function(item){
       jQuery(popUp).append(thisClass.getItemButton(item));
@@ -37,6 +37,17 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
       case ('Help with this player'):
         location.href = 'watchAbout.shtml';
         break;
+      case ('Report a problem'):
+        var paramsP = 'ref=' + this.getVideoUrl() + '&server=MH';
+        if (paella.matterhorn && paella.matterhorn.episode) {
+          paramsP += paella.matterhorn.episode.dcIsPartOf ? '&offeringId=' + paella.matterhorn.episode.dcIsPartOf : '';
+          paramsP += paella.matterhorn.episode.dcType ? '&typeNum=' + paella.matterhorn.episode.dcType : '';
+          paramsP += paella.matterhorn.episode.dcContributor ? '&ps=' + paella.matterhorn.episode.dcContributor : '';
+          paramsP += paella.matterhorn.episode.dcCreated ? 'cDate=' + paella.matterhorn.episode.dcCreated : '';
+          paramsP += paella.matterhorn.episode.dcSpatial ? 'cAgent=' + paella.matterhorn.episode.dcSpatial : '';
+        }
+        window.open('http://cm.dce.harvard.edu/forms/report.shtml?' + paramsP);
+        break;
       case ('Feedback'):
         var params = 'ref=' + this.getVideoUrl() + '&server=MH';
         if (paella.matterhorn && paella.matterhorn.episode) {
@@ -52,11 +63,11 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
         if (paella.matterhorn && paella.matterhorn.episode && paella.matterhorn.episode.dcIsPartOf){
           var seriesId = paella.matterhorn.episode.dcIsPartOf;
           // MATT-1373 reference combined pub list page when series looks like the DCE <academicYear><term><crn>
-          if (seriesId.match('^[0-9]{11}$')) {
-            var academicYear = seriesId.slice(0,4);
-            var academicTerm = seriesId.slice(4,6);
-            var courseCrn = seriesId.slice(6,11);
-            location.href = '../ui/#/' + academicYear + '/' + academicTerm + '/' + courseCrn;
+          if (seriesId.toString().match('^[0-9]{11}$')) {
+            var academicYear = seriesId.toString().slice(0,4);
+            var academicTerm = seriesId.toString().slice(4,6);
+            var courseCrn = seriesId.toString().slice(6,11);
+            location.href = '../ui/index.html#/' + academicYear + '/' + academicTerm + '/' + courseCrn;
           } else {
              // For an unknown series signature, reference the old 1.4x MH only, pub list page
              location.href = '../ui/publicationListing.shtml?seriesId=' + seriesId;
