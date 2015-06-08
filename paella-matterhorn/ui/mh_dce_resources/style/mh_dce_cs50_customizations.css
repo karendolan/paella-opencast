@@ -27,6 +27,10 @@ div#playerContainer_controls_playback_playbackBar{
   background-position: 0px 0px;
 }
 
+#dceHeader.summer:hover {
+  background-position: 5px 0px;
+}
+
 #dceHeader .primary a{
   position: absolute;
   width: 400px;
