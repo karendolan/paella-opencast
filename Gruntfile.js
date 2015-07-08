@@ -187,7 +187,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-jsonlint');
 	grunt.loadNpmTasks('grunt-express');
-
+	grunt.loadNpmTasks('grunt-make');
 	
 	grunt.registerTask('default', ['build.release']);
 	grunt.registerTask('checksyntax', ['concat:less','less:production', 'jshint', 'jsonlint']);
@@ -198,6 +198,7 @@ module.exports = function(grunt) {
 			'update_submodules',
 			'subgrunt:paella',
 			'checksyntax',
+			'make:copy-extensions',
 			'copy:paella',
 			'concat:paella_matterhorn.js',
 			'merge-json'
