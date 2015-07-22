@@ -29,6 +29,7 @@
     "grunt-merge-json": "^0.9.5",
     "grunt-subgrunt": "~0.4.0",
     "grunt-update-submodules": "^0.4.1",
-    "http-proxy": "^1.1.5"
+    "http-proxy": "^1.1.5",
+    "jsonfile": "^2.2.1"
   }
 }

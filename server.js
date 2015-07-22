@@ -2,9 +2,11 @@ var express = require('express');
 var httpProxy = require('http-proxy');
 var https = require('https');
 var fs = require('fs');
+var jsonfile = require('jsonfile');
 
 var matterhornProxyURL = 'https://matterhorn.dce.harvard.edu/';
 var mostRecentWatchReqUrl;
+var cannedEpisode = jsonfile.readFileSync(__dirname + '/fixtures/live.json');
 
 var app = express();
 
@@ -16,13 +18,17 @@ var proxy = httpProxy.createProxyServer({
 app.use('/engage/player', express.static('build'));
 
 // Handle login.html requests with a redirect.
-app.get('/login.html', handleLogin);
+app.get('/login.html', skipToContent);
+app.get('/info/me.json', skipToContent);
+
+// Serve a canned episode for episode requests.
+// app.get('/search/episode.json', episode);
 
 // Handle everything else with the proxy back to the Matterhorn server.
-app.use(proxyFunc);
+app.use(passToProxy);
 
 
-function handleLogin(req, res, next) {
+function skipToContent(req, res, next) {
   if (mostRecentWatchReqUrl) {
     res.redirect(mostRecentWatchReqUrl);
   }
@@ -31,7 +37,12 @@ function handleLogin(req, res, next) {
   }
 }
 
-function proxyFunc(req, res, next) {
+function episode(req, res, next) {
+  console.log('Serving episode.');
+  res.json(cannedEpisode);
+}
+
+function passToProxy(req, res, next) {
   console.log('Proxying:', req.url);
 
   if (req.url.indexOf('/player/watch.html') === 0) {
