@@ -21,4 +21,5 @@ copy-test-repository-to-paella:
 
 copy-config-to-paella:
 	mkdir -p $(PAELLADIR)/config/profiles && \
-	cp $(EXTDIR)/config/profiles/profiles.json $(PAELLADIR)/config/profiles
+	cp $(EXTDIR)/config/profiles/profiles.json $(PAELLADIR)/config/profiles && \
+	cp $(EXTDIR)/config/config.json $(PAELLADIR)/config
