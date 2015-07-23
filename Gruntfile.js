@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 		subgrunt: {
 			paella: {
 				projects: {
-					'submodules/paella': 'build.release'
+					'submodules/paella': 'build.debug'
 				}
 			}
 		},		
