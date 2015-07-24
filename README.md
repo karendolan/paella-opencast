@@ -35,6 +35,14 @@ Main characteristics
 - Support of Chrome, Firefox, Safari and Internet Explorer 9 an 10 browsers
 - Compatible with Opencast Matterhorn 1.4
 
+Development
+===========
+
+If you want to run paella-matterhorn locally without deploying it as a jar within matterhorn (and matterhorn.dce.harvard.edu is currently OK), run:
+
+    make run-test-server
+
+This will create a server that will serve local copies of files under `build/` and will serve a canned `episode.json` and `me.json`, but will proxy everything else (like series information) to matterhorn.dce.harvard.edu.
 
 Build and Install
 =================

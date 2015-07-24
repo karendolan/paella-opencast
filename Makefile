@@ -29,3 +29,6 @@ copy-config-to-paella:
 	cp $(EXTDIR)/config/profiles/profiles.json $(PAELLADIR)/config/profiles && \
 	mkdir -p $(UIDIR)/config && \
 	cp $(EXTDIR)/config/config.json $(UIDIR)/config
+
+run-test-server:
+	node test-server.js
