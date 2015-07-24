@@ -52,6 +52,22 @@ A guide to the branches
 
 Development should branch off of `dce-release` and then PR back into it.
 
+Grunt
+-----
+
+You need to run `grunt` to build everything. Matterhorn's maven process runs this Gruntfile, too. `server.debug` is the default target because we do not currently minify for production
+
+It:
+
+- Copies files from the `dce-paella-extension` module into `submodules/paella` and various other places (see the [Makefile](https://github.com/harvard-dce/paella-matterhorn/blob/using-upstream-paella-directly/Makefile) for details).
+- Copies files from `submodules/paella` into `build`. The paella submodule is the [upstream paella](https://github.com/polimediaupv/paella), not a fork.
+- Also copies files from `paella-matterhorn/ui` into `build`.
+- Concatenates the .less files together.
+- Concatenates the files from `paella-matterhorn/javascript` and `paella-matterhorn/plugins` into `paella_matterhorn.js`.
+- Concatenates localization json files together.
+- Does other stuff.
+- (Obviously, needs refactoring.)
+
 Build and Install
 =================
 
