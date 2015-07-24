@@ -5,7 +5,8 @@ copy-extensions-to-paella: \
 	copy-vendor-extensions-to-paella \
 	copy-resources-to-paella \
 	copy-test-repository-to-paella \
-	copy-config-to-paella
+	copy-config-to-paella \
+	copy-skins-to-paella
 
 copy-vendor-extensions-to-paella:
 	mkdir -p $(PAELLADIR)/vendor && \
@@ -18,6 +19,9 @@ copy-resources-to-paella:
 copy-test-repository-to-paella:
 	mkdir -p $(PAELLADIR)/repository_test/repository && \
 	cp -r $(EXTDIR)/repository_test/repository/* $(PAELLADIR)/repository_test/repository
+
+copy-skins-to-paella:
+	cp $(EXTDIR)/vendor/skins/* $(PAELLADIR)/resources/style/skins
 
 copy-config-to-paella:
 	mkdir -p $(PAELLADIR)/config/profiles && \
