@@ -44,6 +44,14 @@ If you want to run paella-matterhorn locally without deploying it as a jar withi
 
 This will create a server that will serve local copies of files under `build/` and will serve a canned `episode.json` and `me.json`, but will proxy everything else (like series information) to matterhorn.dce.harvard.edu.
 
+A guide to the branches
+-----------------------
+
+- **dce-release** is what will be released to production.
+- **master** is a copy of upstream paella-matterhorn.
+
+Development should branch off of `dce-release` and then PR back into it.
+
 Build and Install
 =================
 
