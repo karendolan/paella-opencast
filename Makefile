@@ -1,5 +1,6 @@
 PAELLADIR = submodules/paella
 EXTDIR = node_modules/dce-paella-extensions
+UIDIR = paella-matterhorn/ui
 
 copy-extensions-to-paella: \
 	copy-vendor-extensions-to-paella \
@@ -26,4 +27,5 @@ copy-skins-to-paella:
 copy-config-to-paella:
 	mkdir -p $(PAELLADIR)/config/profiles && \
 	cp $(EXTDIR)/config/profiles/profiles.json $(PAELLADIR)/config/profiles && \
-	cp $(EXTDIR)/config/config.json $(PAELLADIR)/config
+	mkdir -p $(UIDIR)/config && \
+	cp $(EXTDIR)/config/config.json $(UIDIR)/config
