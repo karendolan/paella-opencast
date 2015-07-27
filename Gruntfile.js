@@ -190,7 +190,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-make');
 	
 	grunt.registerTask('default', ['build.debug']);
-	grunt.registerTask('checksyntax', ['concat:less','less:production', 'jshint', 'jsonlint']);
+	grunt.registerTask('build_css', ['concat:less','less:production']);
+	grunt.registerTask('checksyntax', ['jshint', 'jsonlint']);
 	
 	grunt.registerTask(
 		'build.common', 
@@ -200,6 +201,7 @@ module.exports = function(grunt) {
 			'checksyntax',
 			'make:copy-extensions-to-paella',
 			'copy:paella',
+			'build_css',
 			'concat:paella_matterhorn.js',
 			'merge-json'
 		]
