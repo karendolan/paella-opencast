@@ -4,7 +4,6 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		
-		
 		clean: {
 			build: ["build"]
 		},
@@ -36,7 +35,6 @@ module.exports = function(grunt) {
 				]
 			}
 		},
-		
 		
 		concat: {
 			options: {
@@ -189,17 +187,19 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-express');
 	grunt.loadNpmTasks('grunt-make');
 	
-	grunt.registerTask('default', ['build.debug']);
-	grunt.registerTask('checksyntax', ['concat:less','less:production', 'jshint', 'jsonlint']);
+	grunt.registerTask('default', ['build.release']);
+	grunt.registerTask('build_css', ['concat:less', 'less:production']);
+	grunt.registerTask('checksyntax', ['jshint', 'jsonlint']);
 	
 	grunt.registerTask(
 		'build.common', 
 		[
 			'update_submodules',
-			'subgrunt:paella',
 			'checksyntax',
 			'make:copy-extensions-to-paella',
 			'copy:paella',
+			'subgrunt:paella',
+			'build_css',
 			'concat:paella_matterhorn.js',
 			'merge-json'
 		]
