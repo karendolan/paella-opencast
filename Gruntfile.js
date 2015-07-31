@@ -52,7 +52,12 @@ module.exports = function(grunt) {
 			},			
 			'paella_matterhorn.js': {
 				src: [
-					'paella-matterhorn/javascript/*.js',
+					'paella-matterhorn/javascript/01_prerequisites.js',
+					'paella-matterhorn/javascript/02_accesscontrol.js',
+					'paella-matterhorn/javascript/modified-classes/videoloader-for-paella41.js',
+					'paella-matterhorn/javascript/04_datadelegates.js',
+					'paella-matterhorn/javascript/05_initdelegate.js',
+					'paella-matterhorn/javascript/06_searchepisode.js',
 					'paella-matterhorn/plugins/*/*.js'
 				],
 				dest: 'build/javascript/paella_matterhorn.js'
