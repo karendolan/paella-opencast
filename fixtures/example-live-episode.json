@@ -24,16 +24,33 @@
         "media": {
           "track": [
             {
-              "id": "f32eff0f-a3e7-4562-858b-f390b5443c7f",
-              "mimetype": "video/x-flv",
-              "url": "rtmp://54.173.4.96:1935/live/prod-epiphan007-2.stream",
-              "mediainfo": {
-                  "video": {
-                      "resolution": "1920x540"
-                  }
-              },
-              "tags": [],
               "type": "presenter/delivery",
+              "id": "6be9bcaf-785e-49f9-bae6-03de80423b80",
+              "mimetype": "video/x-flv",
+              "tags": "",
+              "url": "rtmp://54.173.4.96:1935/live/prod-epiphan007-2.stream",
+              "duration": 3600000,
+              "video": {
+                "id": "video-presenter-delivery",
+                "device": "",
+                "encoder": "",
+                "resolution": "1920x540"
+              },
+              "live": true
+            },
+            {
+              "type": "presenter/delivery",
+              "id": "b3535841-7c25-4bf1-adbc-746d98db875d",
+              "mimetype": "video/x-flv",
+              "tags": "",
+              "url": "54.173.4.96:1935/live/prod-epiphan007-2.stream",
+              "duration": 3600000,
+              "video": {
+                "id": "video-presenter-delivery",
+                "device": "",
+                "encoder": "",
+                "resolution": "960x270"
+              },
               "live": true
             }
           ]
