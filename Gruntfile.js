@@ -192,7 +192,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-express');
 	grunt.loadNpmTasks('grunt-make');
 	
-	grunt.registerTask('default', ['build.release']);
+	grunt.registerTask('default', ['build.debug']);
 	grunt.registerTask('build_matterhorn_css', ['concat:less', 'less:production']);
 	grunt.registerTask('checksyntax', ['jshint', 'jsonlint']);
 	
