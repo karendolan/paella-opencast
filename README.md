@@ -25,6 +25,9 @@ Among other things, it:
 - Concatenates the files from `paella-matterhorn/javascript` and `paella-matterhorn/plugins` into `paella_matterhorn.js`.
 - Concatenates localization json files together.
 
+Running locally
+---------------
+
 If you want to run paella-matterhorn locally without deploying it as a jar within matterhorn (and matterhorn.dce.harvard.edu is currently OK), run:
 
     make run-test-server
