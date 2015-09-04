@@ -9,7 +9,7 @@ Branches and tags
 -----------------
 
 - To add a feature or fix a bug, create a branch off of **master**. When it is ready to be reviewed and tested, create a pull request from it to master.
-- Tags are used to indicate which version of Paella this project is using. When you update the Paella submodule, tag paella-matterhorn with `paella` + the Paella tag.
+- Tags are used to indicate which version of Paella this project is using. When you update the Paella submodule, tag paella-matterhorn with `paella` + the Paella tag + `-` + `dce` + an incremented hudce paella-matterhorn version.
 
 Grunt
 -----
