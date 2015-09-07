@@ -24,14 +24,12 @@ function initPaellaMatterhorn(episodeId, onSuccess, onError) {
 					   return;
 					}
 					// #DCE end auth check
-
 					// #DCE verify that results returned at least one episode
 					var totalItems = parseInt(data['search-results'].total);
 					if (totalItems === 0) {
 					   showLoadErrorMessage(paella.dictionary.translate("No recordings found for episode id") + ": \"" + episodeId + "\"");
 					   return;
 					}
-
 					paella.matterhorn.episode = data['search-results'].result;
 					var asyncLoader = new paella.AsyncLoader();
 					var offeringId = null;
@@ -39,7 +37,6 @@ function initPaellaMatterhorn(episodeId, onSuccess, onError) {
 
 					if (paella.matterhorn.episode) {
 					   var serie = paella.matterhorn.episode.mediapackage.series;
-
 					   //#DCE logging helper code
 					   //TODO: This is assuming we only have one result...
 					   var result = data['search-results'].result;
@@ -58,22 +55,25 @@ function initPaellaMatterhorn(episodeId, onSuccess, onError) {
 					       paella.matterhorn.resourceId = "";
 					   }
 					   // end #DCE logging helper
-						
-						if (serie != undefined) {
-							asyncLoader.addCallback(new paella.JSONCallback({url:'/series/'+serie+'.json'}), "serie");
-							asyncLoader.addCallback(new paella.JSONCallback({url:'/series/'+serie+'/acl.json'}), "acl");
-						
-							asyncLoader.load(function() {
-									//Check for series
-									paella.matterhorn.serie = asyncLoader.getCallback("serie").data;
-									//Check for acl
-									paella.matterhorn.acl = asyncLoader.getCallback("acl").data;
-									if (onSuccess) onSuccess();
-								},
-								function() {
-									if (onError) onError();
-								}
-							);
+					   // start #DCE get series from serch endpoint (instead of series endpoint)
+					   if (serie != undefined) {
+					       base.ajax.get({
+					           url: '/search/series.json',
+					           params: {'id': serie }
+					           },
+					           function (data, contentType, code) {
+					           var jsonData = data;
+					           if (typeof (jsonData) == "string") jsonData = JSON.parse(jsonData);
+					           // #DCE verify that results returned at least one series
+					           var totalItems = parseInt(data[ 'search-results'].total);
+					           if (totalItems === 0) {
+					               showLoadErrorMessage(paella.dictionary.translate("No series found for series id") + ": \"" + serie + "\"");
+					               return;
+					           }
+					           searchSeriesToSeriesSeries(data[ 'search-results'].result);
+					           // end #DCE get series from search endpoint
+					           if (onSuccess) onSuccess();
+					       });
 						}
 						else {
 							if (onSuccess) onSuccess();						
@@ -89,6 +89,27 @@ function initPaellaMatterhorn(episodeId, onSuccess, onError) {
 		function() { if (onError) onError(); }
 	);
 }
+
+ // ------------------------------------------------------------
+// #DCE(karen): START transform search/series result into series/series format
+// This tranforms the series data into the expected upstream series format
+var searchSeriesToSeriesSeries  = function (searchSeries) {
+    var dcObject = {};
+    for (var key in searchSeries) {
+        // trim out "dc" and lower case first letter
+        var keyTrimmed = key.replace(/^dc/, '');
+        keyTrimmed = keyTrimmed.charAt(0).toLowerCase() + keyTrimmed.slice(1);
+        dcObject[keyTrimmed] =[ {
+            "value": searchSeries[key]
+        }];
+    }
+    if (!paella.matterhorn.serie) {
+        paella.matterhorn.serie = [];
+    }
+    paella.matterhorn.serie[ 'http://purl.org/dc/terms/'] = dcObject;
+};
+// #DCE(karen): END transform series format
+// ------------------------------------------------------------
 
 // ------------------------------------------------------------
 // #DCE(naomi): start of dce auth addition
