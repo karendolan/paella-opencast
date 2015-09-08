@@ -61,7 +61,13 @@ function initPaellaMatterhorn(episodeId, onSuccess, onError) {
 						
 						if (serie != undefined) {
 							// #DCE get series from Search endpoint
-							searchSeriesToSeriesSeries(serie);
+							var seriesData = searchSeriesToSeriesSeries(serie);
+							if (seriesData) {
+							    paella.matterhorn.serie[ 'http://purl.org/dc/terms/'] = seriesData;
+							    if (onSuccess) onSuccess();
+							} else {
+							    if (onError) onError();
+							}
 						}
 						else {
 							if (onSuccess) onSuccess();						
@@ -133,11 +139,12 @@ var searchSeriesToSeriesSeries = function (seriesId) {
         }
     },
     function (data, contentType, code) {
-        var jsonData;
+        var jsonData = data;
         try {
-            jsonData = JSON.parse(data);
+            if (typeof (jsonData) == "string") jsonData = JSON.parse(jsonData);
         }
         catch (e) {
+            showLoadErrorMessage("Unable to parse series id" + "\"" + serie + "\" data: " + data);
             return false;
         }
         // #DCE verify that results returned at least one series
@@ -158,9 +165,9 @@ var searchSeriesToSeriesSeries = function (seriesId) {
             if (! paella.matterhorn.serie) {
                 paella.matterhorn.serie =[];
             }
-            paella.matterhorn.serie[ 'http://purl.org/dc/terms/'] = dcObject;
+            return dceObject;
         }
-    });
+    })
 };
 // #DCE(karen): END transform series format
 // ------------------------------------------------------------
