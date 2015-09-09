@@ -60,7 +60,7 @@ function initPaellaMatterhorn(episodeId, onSuccess, onError) {
 					   // end #DCE logging helper
 					   if (serie != undefined) {
 						// #DCE get series from Search endpoint
-						var seriesData = searchSeriesToSeriesSeries(serie, function(seriesData) {
+						searchSeriesToSeriesSeries(serie, function(seriesData) {
 						    if (!paella.matterhorn.serie)  paella.matterhorn.serie = [];
 						    paella.matterhorn.serie[ 'http://purl.org/dc/terms/'] = seriesData;
 						});
