@@ -141,18 +141,20 @@ var searchSeriesToSeriesSeries = function (serie, onSuccess, onError) {
             if (typeof (jsonData) == "string") jsonData = JSON.parse(jsonData);
         }
         catch (e) {
-            showLoadErrorMessage("Unable to parse series id" + "\"" + serie + "\" data: " + data);
-            if (typeof(onError)=='function') {
-		onError();
-	    }
+            showLoadErrorMessage(paella.dictionary.translate("Unable to parse series id") + "\"" + serie + "\" data: " + data);
+            if (typeof (onError) == 'function') {
+                onError();
+            }
+            return;
         }
         // #DCE verify that results returned at least one series
         var totalItems = parseInt(jsonData[ 'search-results'].total);
         if (totalItems === 0) {
             showLoadErrorMessage(paella.dictionary.translate("No series found for series id") + ": \"" + serie + "\"");
-            if (typeof(onError)=='function') {
-	         onError();
-	    }
+            if (typeof (onError) == 'function') {
+                onError();
+            }
+            return;
         } else {
             var dcObject = {};
             var seriesResult = jsonData[ 'search-results'].result;
@@ -164,9 +166,9 @@ var searchSeriesToSeriesSeries = function (serie, onSuccess, onError) {
                     "value": seriesResult[key]
                 }];
             }
-            if (typeof(onSuccess)=='function') {
- 		onSuccess(dcObject);
-	    }
+            if (typeof (onSuccess) == 'function') {
+                onSuccess(dcObject);
+            }
         }
     });
 };
