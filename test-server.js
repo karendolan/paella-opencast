@@ -16,6 +16,10 @@ var cannedEpisode = jsonfile.readFileSync(
   // __dirname + '/fixtures/example-live-choppy-episode.json'
 );
 
+var cannedSeries = jsonfile.readFileSync(
+  __dirname + '/fixtures/example-search-series.json'
+);
+
 var cannedMe = jsonfile.readFileSync(
   __dirname + '/fixtures/example-me.json'
 );
@@ -34,6 +38,9 @@ router.get('/info/me.json*', me);
 
 // // Serve a canned episode for episode requests.
 router.get('/search/episode.json*', episode);
+
+// // Serve a canned serues for series requests.
+router.get('/search/series.json*', series);
 
 // Handle everything else with the proxy back to the Matterhorn server.
 router.get('/*', passToProxy);
@@ -61,6 +68,11 @@ function episode(req, res) {
 function me(req, res) {
   console.log('Serving me.json.');
   res.json(cannedMe);
+}
+
+function series(req, res) {
+  console.log('Serving search-series.');
+  res.json(cannedSeries);
 }
 
 function passToProxy(req, res) {

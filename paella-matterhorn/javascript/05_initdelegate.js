@@ -58,29 +58,20 @@ function initPaellaMatterhorn(episodeId, onSuccess, onError) {
 					       paella.matterhorn.resourceId = "";
 					   }
 					   // end #DCE logging helper
-						
-						if (serie != undefined) {
-							asyncLoader.addCallback(new paella.JSONCallback({url:'/series/'+serie+'.json'}), "serie");
-							asyncLoader.addCallback(new paella.JSONCallback({url:'/series/'+serie+'/acl.json'}), "acl");
-						
-							asyncLoader.load(function() {
-									//Check for series
-									paella.matterhorn.serie = asyncLoader.getCallback("serie").data;
-									//Check for acl
-									paella.matterhorn.acl = asyncLoader.getCallback("acl").data;
-									if (onSuccess) onSuccess();
-								},
-								function() {
-									if (onError) onError();
-								}
-							);
-						}
-						else {
-							if (onSuccess) onSuccess();						
-						}
+					   if (serie != undefined) {
+						// #DCE get series from Search endpoint
+						searchSeriesToSeriesSeries(serie, function(seriesData) {
+						    if (!paella.matterhorn.serie)  paella.matterhorn.serie = [];
+						    paella.matterhorn.serie[ 'http://purl.org/dc/terms/'] = seriesData;
+						});
+						if (onSuccess) onSuccess();
+					   }
+				           else {
+						if (onSuccess) onSuccess();
+			 		   }
 					}
 					else {
-						if (onError) onError();
+				 	    if (onError) onError();
 					}
 				},
 				function(data,contentType,code) { if (onError) onError(); }
@@ -135,7 +126,54 @@ var isHarvardDceAuth = function (jsonData) {
 };
 // #DCE(naomi): end of dce auth addition
 // ------------------------------------------------------------
-
+// #DCE(karen): START, get search/series and tranform result into series/series format
+// This tranforms the series data into the expected upstream series format
+var searchSeriesToSeriesSeries = function (serie, onSuccess, onError) {
+    base.ajax.get({
+        url: '/search/series.json',
+        params: {
+            'id': serie
+        }
+    },
+    function (data, contentType, code) {
+        var jsonData = data;
+        try {
+            if (typeof (jsonData) == "string") jsonData = JSON.parse(jsonData);
+        }
+        catch (e) {
+            showLoadErrorMessage(paella.dictionary.translate("Unable to parse series id") + "\"" + serie + "\" data: " + data);
+            if (typeof (onError) == 'function') {
+                onError();
+            }
+            return;
+        }
+        // #DCE verify that results returned at least one series
+        var totalItems = parseInt(jsonData[ 'search-results'].total);
+        if (totalItems === 0) {
+            showLoadErrorMessage(paella.dictionary.translate("No series found for series id") + ": \"" + serie + "\"");
+            if (typeof (onError) == 'function') {
+                onError();
+            }
+            return;
+        } else {
+            var dcObject = {};
+            var seriesResult = jsonData[ 'search-results'].result;
+            for (var key in seriesResult) {
+                // trim out "dc" and lower case first letter
+                var keyTrimmed = key.replace(/^dc/, '');
+                keyTrimmed = keyTrimmed.charAt(0).toLowerCase() + keyTrimmed.slice(1);
+                dcObject[keyTrimmed] =[ {
+                    "value": seriesResult[key]
+                }];
+            }
+            if (typeof (onSuccess) == 'function') {
+                onSuccess(dcObject);
+            }
+        }
+    });
+};
+// #DCE(karen): END transform series format
+// ------------------------------------------------------------
 //#DCE show not found error
 var showLoadErrorMessage = function (message) {
     paella.messageBox.showError(message);
