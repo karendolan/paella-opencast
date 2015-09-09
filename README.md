@@ -14,6 +14,11 @@ Branches and tags
 Grunt
 -----
 
+Prerequisites:
+
+- Run `npm install`.
+- Run `npm install -g grunt-cli` or `sudo npm install -g grunt-cli` if you cannot write to your global node_modules directory.
+
 You need to run `grunt` to build everything. Matterhorn's maven process runs this Gruntfile, too. `server.debug` is the default target because we do not currently minify for production
 
 Among other things, it:
