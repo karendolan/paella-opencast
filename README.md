@@ -39,6 +39,8 @@ If you want to run paella-matterhorn locally without deploying it as a jar withi
 
 This will create a server that will serve local copies of files under `build/` and will serve a canned `episode.json` and `me.json`, but will proxy everything else (like series information) to matterhorn.dce.harvard.edu.
 
+To play a video in the test server, take a URL from production (matterhorn.dce.harvard.edu) and replace the host with localhost:3000.
+
 Paella Player
 =============
 The Paella (pronounce “paeja”) Player is a HTML5 multistream video player capable of playing multiple audio & video streams synchronously and supporting a number of user plugins. It is specially designed for lecture recordings, like Matterhorn Lectures or Polimedia pills.
