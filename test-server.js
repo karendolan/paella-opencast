@@ -13,7 +13,7 @@ var mostRecentWatchReqUrl;
 
 var cannedEpisode = jsonfile.readFileSync(
   __dirname + '/fixtures/example-episode.json'
-  // __dirname + '/fixtures/example-live-choppy-episode.json'
+  // __dirname + '/fixtures/example-live-episode.json'
 );
 
 var cannedSeries = jsonfile.readFileSync(
