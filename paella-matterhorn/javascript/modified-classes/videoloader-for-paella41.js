@@ -64,6 +64,7 @@ var MHVideoLoader = Class.create(paella.VideoLoader, {
     if (!(attachments instanceof Array)) { attachments = [attachments]; }
     this.frameList = {};
 
+    this.updatePosterFrameFlag();
 
     // Read the tracks!!
     for (i=0;i<tracks.length;++i) {
@@ -112,6 +113,7 @@ var MHVideoLoader = Class.create(paella.VideoLoader, {
     var imageSource =   {type:"image/jpeg", frames:{}, count:0, duration: duration, res:{w:320, h:180}};
     var imageSourceHD = {type:"image/jpeg", frames:{}, count:0, duration: duration, res:{w:1280, h:720}};
     var blackboardSource = {type:"image/jpeg", frames:{}, count:0, duration: duration, res:{w:1280, h:720}};
+
     // Read the attachments
     for (i=0;i<attachments.length;++i) {
       var currentAttachment = attachments[i];
@@ -184,5 +186,27 @@ var MHVideoLoader = Class.create(paella.VideoLoader, {
     // Callback
     this.loadStatus = true;
     onSuccess();      
+  },
+
+  updatePosterFrameFlag: function updatePosterFrameFlag() {
+    var pathExists = this.pathExistsInObject(
+      'matterhorn.episode.mediapackage.attachments.attachment.length'.split('.'),
+      paella
+    );
+
+    paellaPlayer.videoContainer._showPosterFrame = (pathExists &&
+      paella.matterhorn.episode.mediapackage.attachments.attachment.length > 0
+    );
+  },
+
+  pathExistsInObject: function pathExistsInObject(path, object) {
+    var current = object;
+    return path.every(segmentExists, true);
+
+    function segmentExists(segment) {
+      current = current[segment];
+      return current;
+    }
   }
 });
+
