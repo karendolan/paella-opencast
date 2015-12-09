@@ -24,6 +24,11 @@ var cannedMe = jsonfile.readFileSync(
   __dirname + '/fixtures/example-me.json'
 );
 
+var cannedCaptions = fs.readFileSync(
+  __dirname + '/fixtures/captions.dfxp'
+);
+
+
 var proxy = httpProxy.createProxyServer({
   secure: false
 });
@@ -32,19 +37,20 @@ var app = express();
 
 var router = express.Router();
 
-// // Handle login.html requests with a redirect.
+// Handle login.html requests with a redirect.
 router.get('/login.html*', skipToContent);
 router.get('/info/me.json*', me);
 
-// // Serve a canned episode for episode requests.
+// Serve a canned episode for episode requests.
 router.get('/search/episode.json*', episode);
 
-// // Serve a canned serues for series requests.
+// Serve a canned series for series requests.
 router.get('/search/series.json*', series);
+
+router.get('/captions.dfxp', captions);
 
 // Handle everything else with the proxy back to the Matterhorn server.
 router.get('/*', passToProxy);
-
 
 // Serve /engage/player/* requests from the local build folder.
 app.use('/engage/player', express.static('build'));
@@ -73,6 +79,11 @@ function me(req, res) {
 function series(req, res) {
   console.log('Serving search-series.');
   res.json(cannedSeries);
+}
+
+function captions(req, res) {
+  console.log('Serving captions.');
+  res.write(cannedCaptions);
 }
 
 function passToProxy(req, res) {
