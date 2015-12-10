@@ -181,8 +181,36 @@ var MHVideoLoader = Class.create(paella.VideoLoader, {
     if (presenter) { this.streams.push(presenter); }
     if (presentation) { this.streams.push(presentation); }
 
+    var captions = getCaptionsArray();
+    if (captions) {
+      loadCaptions(captions);
+    }
+
     // Callback
     this.loadStatus = true;
-    onSuccess();      
+    onSuccess();
+
+    function getCaptionsArray() {
+      // TODO: Implement getting out of episode json.
+      return [
+        {
+          "lang": "en",
+          "text": "English (automatic transciption)",
+          "format": "dfxp",
+          "url": "/captions.dfxp"
+        }
+      ];
+    }
+
+    function loadCaptions(captions) {
+      if (captions) {
+        for (var i=0; i<captions.length; ++i) {
+          var url = captions[i].url;
+          var c = new paella.captions.Caption(i, captions[i].format, url, {code: captions[i].lang, txt: captions[i].text});
+          // Global reference.
+          paella.captions.addCaptions(c);
+        }
+      }
+    }    
   }
 });
