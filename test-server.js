@@ -83,7 +83,8 @@ function series(req, res) {
 
 function captions(req, res) {
   console.log('Serving captions.');
-  res.write(cannedCaptions);
+  res.header('Content-Type', 'text/xml');
+  res.end(cannedCaptions);
 }
 
 function passToProxy(req, res) {

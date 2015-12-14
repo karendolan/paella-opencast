@@ -58,7 +58,6 @@ module.exports = function(grunt) {
 					'paella-matterhorn/javascript/04_datadelegates.js',
 					'paella-matterhorn/javascript/05_initdelegate.js',
 					'paella-matterhorn/javascript/06_searchepisode.js',
-					'submodules/paella/src/06_1_captions.js',
 					'paella-matterhorn/plugins/*/*.js'
 				],
 				dest: 'build/javascript/paella_matterhorn.js'

@@ -197,7 +197,7 @@ var MHVideoLoader = Class.create(paella.VideoLoader, {
           "lang": "en",
           "text": "English (automatic transciption)",
           "format": "dfxp",
-          "url": "/captions.dfxp"
+          "url": "https://localhost:3000/captions.dfxp"
         }
       ];
     }
