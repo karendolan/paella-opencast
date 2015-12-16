@@ -181,36 +181,61 @@ var MHVideoLoader = Class.create(paella.VideoLoader, {
     if (presenter) { this.streams.push(presenter); }
     if (presentation) { this.streams.push(presentation); }
 
-    var captions = getCaptionsArray();
-    if (captions) {
-      loadCaptions(captions);
+    // Get captions.
+    var captionURL = getCaptionURL();
+    if (captionURL) {
+      loadCaptions(captionURL, concludeLoading);
+    }
+    else {
+      setTimeout(concludeLoading, 0);
     }
 
-    // Callback
-    this.loadStatus = true;
-    onSuccess();
-
-    function getCaptionsArray() {
-      // TODO: Implement getting out of episode json.
-      return [
-        {
-          "lang": "en",
-          "text": "English (automatic transciption)",
-          "format": "dfxp",
-          "url": "https://localhost:3000/captions.dfxp"
-        }
-      ];
-    }
-
-    function loadCaptions(captions) {
-      if (captions) {
-        for (var i=0; i<captions.length; ++i) {
-          var url = captions[i].url;
-          var c = new paella.captions.Caption(i, captions[i].format, url, {code: captions[i].lang, txt: captions[i].text});
-          // Global reference.
-          paella.captions.addCaptions(c);
+    // Like MHCaptionsDataDelegate#read, except it stops when it finds the url
+    // and leaves loading the url up to other functions (like
+    // paella.captions.Caption#initialize and reload).
+    function getCaptionURL() {
+      var catalogs = paella.matterhorn.episode.mediapackage.metadata.catalog;
+      if (!(catalogs instanceof Array)) {
+        catalogs = [catalogs];
+      }
+      
+      var catalog;
+    
+      for (var i = 0; i < catalogs.length; ++i) {
+        catalog = catalogs[i];
+        if (catalog.type == 'captions/timedtext') {
+          break;
         }
       }
-    }    
+      if (catalog) {
+        return catalog.url;
+      }
+    }
+
+    // We get caption info from
+    // paella.matterhorn.episode.mediapackage.metadata.catalog, which does 
+    // not contain the params needed by the Caption constructor. So, we're
+    // hardcoding it. Since we only support a single language, this is not
+    // a problem, but when we support multiple languages or formats, we're
+    // going to need to get this information from the media package or
+    // elsewhere.
+    function loadCaptions(url, done) {
+      // Add to global instance of `captions`.
+      paella.captions.addCaptions(new paella.captions.Caption(
+        0, // Caption id
+        'dfxp', // Format
+        url,
+        {
+          code: 'en',
+          txt: 'English'
+        },
+        done
+      ));
+    }
+
+    function concludeLoading() {
+      paella.initDelegate.initParams.videoLoader.loadStatus = true;
+      onSuccess();
+    }
   }
 });
