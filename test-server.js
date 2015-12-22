@@ -50,6 +50,9 @@ router.get('/search/series.json*', series);
 
 router.get('/captions.dfxp', captions);
 
+// // Quitely consume the usertracking puts
+router.get('/usertracking/*', swallow);
+
 // Handle everything else with the proxy back to the Matterhorn server.
 router.get('/*', passToProxy);
 
@@ -65,6 +68,11 @@ function skipToContent(req, res, next) {
     res.redirect(mostRecentWatchReqUrl);
   }
   next();
+}
+
+function swallow(req, res) {
+  console.log('Swallowing usertracking.');
+  res.end();
 }
 
 function episode(req, res) {
@@ -91,7 +99,7 @@ function captions(req, res) {
 function passToProxy(req, res) {
   console.log('Proxying:', req.url);
 
-  if (req.url.indexOf('/player/watch.html') === 0) {
+  if (req.url.indexOf('/engage/player/watch.html') === 0) {
     mostRecentWatchReqUrl = req.url;
   }
 

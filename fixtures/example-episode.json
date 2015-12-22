@@ -302,6 +302,12 @@
         "attachments": {
           "attachment": [
             {
+              "type": "attachment/notes",
+              "id": "0c2dfb51-2251-4390-8bc3-cd23eba4b4dd",
+              "tags": {"tag": "archive"},
+              "url": "https://d1zztbmffjw6uu.cloudfront.net/engage-player/d77f6c3e-a8e0-4be2-b94d-105aa8bedd4a/1d177e7c-c8da-4fd1-a26b-b2c74412aa86/upload.txt"
+            },
+            {
               "ref": "track:dc6c64f5-3106-4a1f-8f25-7f2ac7892dac;time=T01:16:00:0F1000",
               "type": "presentation/segment+preview",
               "id": "fe09d45d-313f-44b7-a5eb-b8ca30becd14",

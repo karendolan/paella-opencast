@@ -357,6 +357,11 @@
         },
         "attachments": {
           "attachment": [
+              "type": "attachment/notes",
+              "id": "0c2dfb51-2251-4390-8bc3-cd23eba4b4dd",
+              "tags": {"tag": "archive"},
+              "url": "https://d1zztbmffjw6uu.cloudfront.net/engage-player/d77f6c3e-a8e0-4be2-b94d-105aa8bedd4a/1d177e7c-c8da-4fd1-a26b-b2c74412aa86/upload.txt"
+            },
             {
               "ref": "track:0e5d0ef3-bfd9-422a-bc18-284e702069f5;time=T00:02:33:0F1000",
               "type": "presentation/segment+preview",
