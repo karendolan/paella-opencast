@@ -357,6 +357,7 @@
         },
         "attachments": {
           "attachment": [
+            {
               "type": "attachment/notes",
               "id": "0c2dfb51-2251-4390-8bc3-cd23eba4b4dd",
               "tags": {"tag": "archive"},

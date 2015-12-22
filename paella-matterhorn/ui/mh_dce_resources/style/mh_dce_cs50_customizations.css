@@ -4,7 +4,7 @@ body{
 
 div#playerContainer_controls_playback_playbackBar{
   /* !important is a terrible, terrible hack but necessary because of how paella switches themes */
-  right: 200px !important;
+  right: 260px !important;
 }
 
 #dceHeader {
