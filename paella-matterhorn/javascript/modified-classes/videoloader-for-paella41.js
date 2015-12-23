@@ -187,6 +187,17 @@ var MHVideoLoader = Class.create(paella.VideoLoader, {
       loadCaptions(captionURL, concludeLoading);
     }
     else {
+      // #DCE hack to force getAvailableLangs().length == undefined in captionsPlugin
+      // see issue https://github.com/polimediaupv/paella/issues/177
+      // "forEach" hack is to recover from a different captionsPlugin assumption
+      // remove once issue117 is fixed.
+      paella.captions.noAvailableCaptionsDceHack = {
+          forEach: function() {return [];}
+      };
+      paella.captions.getAvailableLangs = function() {
+          return paella.captions.noAvailableCaptionsDceHack;
+      };
+      // -- end #DCE issue117 hack --
       setTimeout(concludeLoading, 0);
     }
 
@@ -199,11 +210,11 @@ var MHVideoLoader = Class.create(paella.VideoLoader, {
         catalogs = [catalogs];
       }
       
-      var catalog;
+      var catalog = null;
     
       for (var i = 0; i < catalogs.length; ++i) {
-        catalog = catalogs[i];
-        if (catalog.type == 'captions/timedtext') {
+        if (catalogs[i].type == 'captions/timedtext') {
+          catalog = catalogs[i];
           break;
         }
       }
