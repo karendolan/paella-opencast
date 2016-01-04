@@ -181,8 +181,72 @@ var MHVideoLoader = Class.create(paella.VideoLoader, {
     if (presenter) { this.streams.push(presenter); }
     if (presentation) { this.streams.push(presentation); }
 
-    // Callback
-    this.loadStatus = true;
-    onSuccess();      
+    // Get captions.
+    var captionURL = getCaptionURL();
+    if (captionURL) {
+      loadCaptions(captionURL, concludeLoading);
+    }
+    else {
+      // #DCE hack to force getAvailableLangs().length == undefined in captionsPlugin
+      // see issue https://github.com/polimediaupv/paella/issues/177
+      // "forEach" hack is to recover from a different captionsPlugin assumption
+      // remove once issue117 is fixed.
+      paella.captions.noAvailableCaptionsDceHack = {
+          forEach: function() {return [];}
+      };
+      paella.captions.getAvailableLangs = function() {
+          return paella.captions.noAvailableCaptionsDceHack;
+      };
+      // -- end #DCE issue117 hack --
+      setTimeout(concludeLoading, 0);
+    }
+
+    // Like MHCaptionsDataDelegate#read, except it stops when it finds the url
+    // and leaves loading the url up to other functions (like
+    // paella.captions.Caption#initialize and reload).
+    function getCaptionURL() {
+      var catalogs = paella.matterhorn.episode.mediapackage.metadata.catalog;
+      if (!(catalogs instanceof Array)) {
+        catalogs = [catalogs];
+      }
+      
+      var catalog = null;
+    
+      for (var i = 0; i < catalogs.length; ++i) {
+        if (catalogs[i].type == 'captions/timedtext') {
+          catalog = catalogs[i];
+          break;
+        }
+      }
+      if (catalog) {
+        return catalog.url;
+      }
+    }
+
+    // We get caption info from
+    // paella.matterhorn.episode.mediapackage.metadata.catalog, which does 
+    // not contain the params needed by the Caption constructor. So, we're
+    // hardcoding it. Since we only support a single language, this is not
+    // a problem, but when we support multiple languages or formats, we're
+    // going to need to get this information from the media package or
+    // elsewhere.
+    function loadCaptions(url, done) {
+      // Add to global instance of `captions`.
+      paella.captions.addCaptions(new paella.captions.Caption(
+        0, // Caption id
+        'dfxp', // Format
+        url,
+        {
+          code: 'en',
+          txt: 'English'
+        },
+        done
+      ));
+    }
+
+    function concludeLoading() {
+      paella.initDelegate.initParams.videoLoader.loadStatus = true;
+      onSuccess();
+    }
   }
 });

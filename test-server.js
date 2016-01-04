@@ -13,7 +13,8 @@ var mostRecentWatchReqUrl;
 
 var cannedEpisode = jsonfile.readFileSync(
   // __dirname + '/fixtures/example-episode.json'
-  __dirname + '/fixtures/example-live-episode.json'
+  // __dirname + '/fixtures/example-live-episode.json'
+  __dirname + '/fixtures/example-captions-episode.json'
 );
 
 var cannedSeries = jsonfile.readFileSync(
@@ -24,6 +25,11 @@ var cannedMe = jsonfile.readFileSync(
   __dirname + '/fixtures/example-me.json'
 );
 
+var cannedCaptions = fs.readFileSync(
+  __dirname + '/fixtures/captions.dfxp'
+);
+
+
 var proxy = httpProxy.createProxyServer({
   secure: false
 });
@@ -32,19 +38,23 @@ var app = express();
 
 var router = express.Router();
 
-// // Handle login.html requests with a redirect.
+// Handle login.html requests with a redirect.
 router.get('/login.html*', skipToContent);
 router.get('/info/me.json*', me);
 
-// // Serve a canned episode for episode requests.
+// Serve a canned episode for episode requests.
 router.get('/search/episode.json*', episode);
 
-// // Serve a canned serues for series requests.
+// Serve a canned series for series requests.
 router.get('/search/series.json*', series);
+
+router.get('/captions.dfxp', captions);
+
+// // Quitely consume the usertracking puts
+router.get('/usertracking/*', swallow);
 
 // Handle everything else with the proxy back to the Matterhorn server.
 router.get('/*', passToProxy);
-
 
 // Serve /engage/player/* requests from the local build folder.
 app.use('/engage/player', express.static('build'));
@@ -58,6 +68,11 @@ function skipToContent(req, res, next) {
     res.redirect(mostRecentWatchReqUrl);
   }
   next();
+}
+
+function swallow(req, res) {
+  console.log('Swallowing usertracking.');
+  res.end();
 }
 
 function episode(req, res) {
@@ -75,10 +90,16 @@ function series(req, res) {
   res.json(cannedSeries);
 }
 
+function captions(req, res) {
+  console.log('Serving captions.');
+  res.header('Content-Type', 'text/xml');
+  res.end(cannedCaptions);
+}
+
 function passToProxy(req, res) {
   console.log('Proxying:', req.url);
 
-  if (req.url.indexOf('/player/watch.html') === 0) {
+  if (req.url.indexOf('/engage/player/watch.html') === 0) {
     mostRecentWatchReqUrl = req.url;
   }
 
