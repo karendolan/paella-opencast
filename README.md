@@ -23,12 +23,18 @@ You need to run `grunt` to build everything. Matterhorn's maven process runs thi
 
 Among other things, it:
 
-- Copies files from the `dce-paella-extension` module into `submodules/paella` and various other places (see the [Makefile](https://github.com/harvard-dce/paella-matterhorn/blob/using-upstream-paella-directly/Makefile) for details).
+- Copies files from the `dce-paella-extensions` module into `submodules/paella` and various other places (see the [Makefile](https://github.com/harvard-dce/paella-matterhorn/blob/using-upstream-paella-directly/Makefile) for details).
 - Copies files from `submodules/paella` into `build`. The paella submodule is the [upstream paella](https://github.com/polimediaupv/paella), not a fork.
 - Also copies files from `paella-matterhorn/ui` into `build`.
 - Concatenates the .less files together.
 - Concatenates the files from `paella-matterhorn/javascript` and `paella-matterhorn/plugins` into `paella_matterhorn.js`.
 - Concatenates localization json files together.
+
+Dependencies
+------------
+
+dce-paella-extensions is a dependency that contains DCE-specific Paella changes. Its version is specified as a tilde range, which means that NPM will install the latest version of dce-paella-extensions that matches the major and minor versions. e.g. If ~1.0.27 is the version in package.json, NPM will install the 1.0.30 if it is available. It will not install 1.1.0. You need to change the version in package.json if you want that version.
+
 
 Running locally
 ---------------
