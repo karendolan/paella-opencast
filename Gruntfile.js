@@ -201,6 +201,7 @@ module.exports = function(grunt) {
 		[
 			'update_submodules',
 			'make:copy-extensions-to-paella',
+			'make:build-app-index',
 			'subgrunt:paella',
 			'copy:paella',
 			'checksyntax',

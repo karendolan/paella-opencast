@@ -1,6 +1,7 @@
 PAELLADIR = submodules/paella
 EXTDIR = node_modules/dce-paella-extensions
 UIDIR = paella-matterhorn/ui
+BROWSERIFYCMD = node_modules/.bin/browserify
 
 copy-extensions-to-paella: \
 	copy-vendor-extensions-to-paella \
@@ -32,3 +33,7 @@ copy-config-to-paella:
 
 run-test-server:
 	node test-server.js
+
+# TODO: uglify-js, source map build.
+build-app-index:
+	$(BROWSERIFYCMD) app-src/index.js > build/javascript/app-index.js
