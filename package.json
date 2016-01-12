@@ -7,10 +7,9 @@
     "url": "https://github.com/harvard-dce/paella-matterhorn.git"
   },
   "dependencies": {
-    "@harvard-dce/player-router": "^1.1.0",
     "browserify": "^12.0.1",
     "dce-paella-extensions": "~1.1.30",
-    "hcat": "^1.0.1",
+    "dce-player-router": "^1.1.0",
     "object-path-exists": "^1.0.0"
   },
   "devDependencies": {

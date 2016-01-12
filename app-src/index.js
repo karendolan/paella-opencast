@@ -1,4 +1,4 @@
-var initPlayerRouter = require('@harvard-dce/player-router');
+var initPlayerRouter = require('dce-player-router');
 var pathExists = require('object-path-exists');
 
 var seekMethodPath = ['player', 'videoContainer', 'seekToTime'];
