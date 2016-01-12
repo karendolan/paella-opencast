@@ -201,12 +201,12 @@ module.exports = function(grunt) {
 		[
 			'update_submodules',
 			'make:copy-extensions-to-paella',
-			'make:build-app-index',
 			'subgrunt:paella',
 			'copy:paella',
 			'checksyntax',
 			'build_matterhorn_css',
 			'concat:paella_matterhorn.js',
+			'make:build-app-index',
 			'merge-json'
 		]
 	);
