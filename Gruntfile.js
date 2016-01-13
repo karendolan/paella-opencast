@@ -206,6 +206,7 @@ module.exports = function(grunt) {
 			'checksyntax',
 			'build_matterhorn_css',
 			'concat:paella_matterhorn.js',
+			'make:build-app-index',
 			'merge-json'
 		]
 	);
