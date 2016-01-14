@@ -46,7 +46,8 @@ module.exports = function(grunt) {
 			'less':{
 				src: [
 					'paella-matterhorn/plugins/*/*.less',
-					'submodules/paella/resources/style/defines.less'
+					'submodules/paella/resources/style/defines.less',
+					'node_modules/dce-paella-extensions/resources/style/overrides.less'
 				],
 				dest: 'build/temp/matterhorn-style.less'
 			},			
