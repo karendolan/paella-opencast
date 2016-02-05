@@ -10,8 +10,6 @@ var router = initPlayerRouter({
   }
 });
 
-router.route();
-
 function seekWhenPaellaIsReady(startTime, endTime) {
   seek();
   // TODO: Implement endTime support.
@@ -26,3 +24,13 @@ function seekWhenPaellaIsReady(startTime, endTime) {
     }
   }
 }
+
+function clearDoneUrlCookie() {
+  document.cookie = 'done_url=; expires=Thu, 01 Jan 1970 00:00:00 GMT; ' +
+    'domain=.harvard.edu; path=/';
+}
+
+((function go() {
+  clearDoneUrlCookie();
+  router.route();
+})());
