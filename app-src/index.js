@@ -35,7 +35,7 @@ function disableAutoHiding() {
 
   function getRidOfOnPlayEvent() {
     $(document).off('paella:controlBarLoaded', getRidOfOnPlayEvent);
-    paella.player.controls.onPlayEvent = noOp;
+    paella.player.controls.restartHideTimer = noOp;
   }
 }
 
