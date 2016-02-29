@@ -37,3 +37,25 @@ run-test-server:
 # TODO: uglify-js, source map build.
 build-app-index:
 	$(BROWSERIFYCMD) app-src/index.js > build/javascript/app-index.js
+
+
+SMOKECHROME = node_modules/.bin/tap-closer | \
+	node_modules/.bin/smokestack -b chrome
+
+SMOKEFIREFOX = node_modules/.bin/tap-closer | \
+	node_modules/.bin/smokestack -b firefox
+
+test-chrome: build-text-fixtures run-plain-web-server
+	$(BROWSERIFYCMD) tests/parent-appriser-tests.js | $(SMOKECHROME)
+
+test-chrome-leave-up: build-text-fixtures run-plain-web-server
+	$(BROWSERIFYCMD) tests/parent-appriser-tests.js| node_modules/.bin/smokestack -b chrome
+
+test-firefox: build-text-fixtures run-plain-web-server
+	$(BROWSERIFYCMD) tests/parent-appriser-tests.js | $(SMOKEFIREFOX)
+
+run-plain-web-server:
+	python -m SimpleHTTPServer &
+
+build-text-fixtures:
+	$(BROWSERIFYCMD) tests/fixtures/inner-frame-src.js > tests/fixtures/inner-frame.js

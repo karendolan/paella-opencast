@@ -33,6 +33,9 @@
     "grunt-subgrunt": "~0.4.0",
     "grunt-update-submodules": "^0.4.1",
     "http-proxy": "^1.1.5",
-    "jsonfile": "^2.2.1"
+    "jsonfile": "^2.2.1",
+    "smokestack": "^3.4.1",
+    "tap-closer": "^1.0.0",
+    "tape": "^4.4.0"
   }
 }
