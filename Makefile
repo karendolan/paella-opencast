@@ -45,17 +45,24 @@ SMOKECHROME = node_modules/.bin/tap-closer | \
 SMOKEFIREFOX = node_modules/.bin/tap-closer | \
 	node_modules/.bin/smokestack -b firefox
 
-test-chrome: build-text-fixtures run-plain-web-server
+run-chrome-test: 
 	$(BROWSERIFYCMD) tests/parent-appriser-tests.js | $(SMOKECHROME)
 
-test-chrome-leave-up: build-text-fixtures run-plain-web-server
-	$(BROWSERIFYCMD) tests/parent-appriser-tests.js| node_modules/.bin/smokestack -b chrome
+test-chrome: build-text-fixtures run-plain-web-server run-chrome-test kill-web-server
 
-test-firefox: build-text-fixtures run-plain-web-server
-	$(BROWSERIFYCMD) tests/parent-appriser-tests.js | $(SMOKEFIREFOX)
+# test-chrome-leave-up: build-text-fixtures run-plain-web-server
+# 	$(BROWSERIFYCMD) tests/parent-appriser-tests.js| node_modules/.bin/smokestack -b chrome
+# 	kill-web-server
+
+# test-firefox: build-text-fixtures run-plain-web-server
+# 	$(BROWSERIFYCMD) tests/parent-appriser-tests.js | $(SMOKEFIREFOX)
+# 	kill-web-server
 
 run-plain-web-server:
-	python -m SimpleHTTPServer &
+	node tests/fixtures/static-server.js > tests/fixtures/server-pid.txt &
+
+kill-web-server:
+	kill $(shell cat tests/fixtures/server-pid.txt)
 
 build-text-fixtures:
 	$(BROWSERIFYCMD) tests/fixtures/inner-frame-src.js > tests/fixtures/inner-frame.js
