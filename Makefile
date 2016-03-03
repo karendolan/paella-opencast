@@ -34,6 +34,9 @@ copy-config-to-paella:
 run-test-server:
 	node test-server.js
 
+run-test-server-plain-http:
+	node test-server.js --use-http > tests/fixtures/server-pid.txt &
+
 # TODO: uglify-js, source map build.
 build-app-index:
 	$(BROWSERIFYCMD) app-src/index.js > build/javascript/app-index.js
@@ -48,7 +51,7 @@ SMOKEFIREFOX = node_modules/.bin/tap-closer | \
 run-chrome-test: 
 	$(BROWSERIFYCMD) tests/parent-appriser-tests.js | $(SMOKECHROME)
 
-test-chrome: build-text-fixtures run-plain-web-server run-chrome-test kill-web-server
+test-chrome: build-text-fixtures run-test-server-plain-http run-chrome-test kill-web-server
 
 # test-chrome-leave-up: build-text-fixtures run-plain-web-server
 # 	$(BROWSERIFYCMD) tests/parent-appriser-tests.js| node_modules/.bin/smokestack -b chrome
@@ -58,11 +61,6 @@ test-chrome: build-text-fixtures run-plain-web-server run-chrome-test kill-web-s
 # 	$(BROWSERIFYCMD) tests/parent-appriser-tests.js | $(SMOKEFIREFOX)
 # 	kill-web-server
 
-run-plain-web-server:
-	node tests/fixtures/static-server.js > tests/fixtures/server-pid.txt &
-
 kill-web-server:
 	kill $(shell cat tests/fixtures/server-pid.txt)
-
-build-text-fixtures:
-	$(BROWSERIFYCMD) tests/fixtures/inner-frame-src.js > tests/fixtures/inner-frame.js
+	rm -f tests/fixtures/server-pid.txt
