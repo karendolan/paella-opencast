@@ -51,7 +51,7 @@ SMOKEFIREFOX = node_modules/.bin/tap-closer | \
 run-chrome-test: 
 	$(BROWSERIFYCMD) tests/parent-appriser-tests.js | $(SMOKECHROME)
 
-test-chrome: build-text-fixtures run-test-server-plain-http run-chrome-test kill-web-server
+test-chrome: run-test-server-plain-http run-chrome-test kill-web-server
 
 # test-chrome-leave-up: build-text-fixtures run-plain-web-server
 # 	$(BROWSERIFYCMD) tests/parent-appriser-tests.js| node_modules/.bin/smokestack -b chrome
