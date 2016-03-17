@@ -1,5 +1,6 @@
 var initPlayerRouter = require('dce-player-router');
 var pathExists = require('object-path-exists');
+var createParentFrameListener = require('./create-parent-frame-listener');
 
 var seekMethodPath = ['player', 'videoContainer', 'seekToTime'];
 
@@ -42,7 +43,19 @@ function disableAutoHiding() {
 function noOp() {
 }
 
+function setUpParentFrameListener() {
+  $(document).off('paella:loadComplete', setUpParentFrameListener);
+  createParentFrameListener({
+    playResponder: playVideos
+  });
+}
+
+function playVideos() {
+  paella.player.videoContainer.play();
+}
+
 ((function go() {
+  $(document).on('paella:loadComplete', setUpParentFrameListener);
   disableAutoHiding();
   clearDoneUrlCookie();
   router.route();
