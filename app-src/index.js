@@ -1,6 +1,7 @@
 var initPlayerRouter = require('dce-player-router');
 var pathExists = require('object-path-exists');
 var createParentFrameListener = require('./create-parent-frame-listener');
+var createParentFrameAppriser = require('./create-parent-frame-appriser');
 
 var seekMethodPath = ['player', 'videoContainer', 'seekToTime'];
 
@@ -50,12 +51,20 @@ function setUpParentFrameListener() {
   });
 }
 
+function setUpParentFrameAppriser() {
+  $(document).off('paella:loadComplete', setUpParentFrameAppriser);
+  createParentFrameAppriser({
+    videoElement: document.querySelector('#' + paella.player.videoContainer.video1Id)
+  });
+}
+
 function playVideos() {
   paella.player.videoContainer.play();
 }
 
 ((function go() {
   $(document).on('paella:loadComplete', setUpParentFrameListener);
+  $(document).on('paella:loadComplete', setUpParentFrameAppriser);
   disableAutoHiding();
   clearDoneUrlCookie();
   router.route();
