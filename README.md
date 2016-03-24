@@ -48,6 +48,17 @@ This will create a server that will serve local copies of files under `build/` a
 
 To play a video in the test server, take a URL from production (matterhorn.dce.harvard.edu) and replace the host with localhost:3000. Make sure you use the https protocol.
 
+Tests
+-----
+
+To run parent frame communcation tests, do:
+
+    npm install
+    make test-chrome
+    make test-firefox
+
+This should run the tests in Chrome and Firefox respectively, and in your terminal, you should see the test resutls.
+
 Paella Player
 =============
 The Paella (pronounce “paeja”) Player is a HTML5 multistream video player capable of playing multiple audio & video streams synchronously and supporting a number of user plugins. It is specially designed for lecture recordings, like Matterhorn Lectures or Polimedia pills.
