@@ -31,7 +31,7 @@
 			<plugin>
 			    <groupId>com.github.eirslett</groupId>
 			    <artifactId>frontend-maven-plugin</artifactId>
-			    <version>0.0.15</version>
+			    <version>0.0.22</version>
 			    
 			    <configuration>
 			        <workingDirectory>.</workingDirectory>
@@ -40,18 +40,18 @@
 			    <executions>
                     <execution>
                         <id>install node and npm</id>
-						<phase>validate</phase>                        
+			<phase>validate</phase>
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
-                            <nodeVersion>v0.10.26</nodeVersion>
-                            <npmVersion>1.4.3</npmVersion>
+                            <nodeVersion>v0.12.1</nodeVersion>
+                            <npmVersion>2.7.1</npmVersion>
                         </configuration>
                     </execution>
 
                     <execution>
-						<phase>validate</phase>                        
+			<phase>validate</phase>
                         <id>npm install</id>
                         <goals>
                             <goal>npm</goal>
@@ -63,7 +63,7 @@
                     </execution>
 
                     <execution>
-						<phase>compile</phase>                        
+			<phase>compile</phase>
                         <id>grunt</id>
                         <goals>
                             <goal>grunt</goal>
