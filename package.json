@@ -1,6 +1,6 @@
 {
   "name": "paella-engage-ui",
-  "version": "4.0.12",
+  "version": "4.0.13",
   "description": "Paella Player for Matterhorn",
   "repository": {
     "type": "git",
@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "browserify": "^12.0.1",
-    "dce-paella-extensions": "~1.2.40",
+    "dce-paella-extensions": "^1.2.43",
     "dce-player-router": "^1.1.0",
     "object-path-exists": "^1.0.0"
   },
