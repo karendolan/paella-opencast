@@ -1,5 +1,6 @@
 var initPlayerRouter = require('dce-player-router');
 var pathExists = require('object-path-exists');
+var setUpParentFrameCommunications = require('./set-up-parent-frame-communications');
 
 var seekMethodPath = ['player', 'videoContainer', 'seekToTime'];
 
@@ -12,7 +13,6 @@ var router = initPlayerRouter({
 
 function seekWhenPaellaIsReady(startTime, endTime) {
   seek();
-  // TODO: Implement endTime support.
 
   function seek() {
     if (pathExists(paella, seekMethodPath)) {
@@ -42,7 +42,9 @@ function disableAutoHiding() {
 function noOp() {
 }
 
+
 ((function go() {
+  setUpParentFrameCommunications(document);
   disableAutoHiding();
   clearDoneUrlCookie();
   router.route();

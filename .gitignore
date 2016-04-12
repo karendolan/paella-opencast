@@ -5,3 +5,4 @@ build
 node
 target
 paella-matterhorn/ui/config/config.json
+tests/fixtures/server-pid.txt

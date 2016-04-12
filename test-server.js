@@ -1,8 +1,16 @@
 var express = require('express');
 var httpProxy = require('http-proxy');
 var https = require('https');
+var http = require('http');
 var fs = require('fs');
 var jsonfile = require('jsonfile');
+
+var useHTTPS = true;
+var verbose = false;
+
+if (process.argv.length > 2 && process.argv[2] === '--use-http') {
+  useHTTPS = false;
+}
 
 var matterhornProxyURL = 'https://matterhorn.dce.harvard.edu/';
 var proxyOpts = {
@@ -63,7 +71,7 @@ app.use('/', router);
 
 
 function skipToContent(req, res, next) {
-  console.log('Skipping to', mostRecentWatchReqUrl);
+  log('Skipping to', mostRecentWatchReqUrl);
   if (mostRecentWatchReqUrl) {
     res.redirect(mostRecentWatchReqUrl);
   }
@@ -71,33 +79,33 @@ function skipToContent(req, res, next) {
 }
 
 function swallow(req, res) {
-  console.log('Swallowing usertracking.');
+  log('Swallowing usertracking.');
   res.end();
 }
 
 function episode(req, res) {
-  console.log('Serving episode.');
+  log('Serving episode.');
   res.json(cannedEpisode);
 }
 
 function me(req, res) {
-  console.log('Serving me.json.');
+  log('Serving me.json.');
   res.json(cannedMe);
 }
 
 function series(req, res) {
-  console.log('Serving search-series.');
+  log('Serving search-series.');
   res.json(cannedSeries);
 }
 
 function captions(req, res) {
-  console.log('Serving captions.');
+  log('Serving captions.');
   res.header('Content-Type', 'text/xml');
   res.end(cannedCaptions);
 }
 
 function passToProxy(req, res) {
-  console.log('Proxying:', req.url);
+  log('Proxying:', req.url);
 
   if (req.url.indexOf('/engage/player/watch.html') === 0) {
     mostRecentWatchReqUrl = req.url;
@@ -111,7 +119,24 @@ var httpsOpts = {
   cert: fs.readFileSync(__dirname + '/fixtures/test.crt')
 };
 
-var server = https.createServer(httpsOpts, app);
+var server;
+if (useHTTPS) {
+  server = https.createServer(httpsOpts, app);
+}
+else {
+  server = http.createServer(app);
+}
+
 server.listen(3000);
 
-console.log('Listening on port 3000.');
+function log() {
+  if (verbose) {
+    console.log.apply(console, arguments);
+  }
+}
+
+log('Listening on port 3000.');
+
+// Needed by test targets in Makefile.
+console.log(process.pid);
+
