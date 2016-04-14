@@ -59,7 +59,12 @@ To run parent frame communcation tests, do:
     make test-chrome
     make test-firefox
 
-This should run the tests in Chrome and Firefox respectively, and in your terminal, you should see the test resutls.
+This should run the tests in Chrome and Firefox respectively, and in your terminal, you should see the test results.
+
+Non-Paella parts of the project
+-------------------------------
+
+In `app-src`, there are modules that get built into `app-index.js` via Browserify. `app-index.js` gets pulled into the web page at [paella-matterhorn/ui/watch.html](https://github.com/harvard-dce/paella-matterhorn/blob/master/paella-matterhorn/ui/watch.html).
 
 Paella Player
 =============
