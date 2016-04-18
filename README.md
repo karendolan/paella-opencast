@@ -110,7 +110,7 @@ The `app-src/index.js` has a function that immediately executes when it's loaded
 
 These are entry points into the four things that the modules in `app-src` currently do:
 
-- It sets up communications with parent frames. When the player is loaded in an iframe, the player can A) respond to play messages from the parent window and B) can send time update messages to a parent window.
+- It sets up communications with parent frames. When the player is loaded in an iframe, the player can A) respond to play messages from the parent window and B) can send time update messages to a parent window. [Here's an example of that in action.](http://jsbin.com/qomifisaba/edit?html,js,output)
 
 - Disables auto-hiding of the play controls after the player idles. DCE support and Rebecca Nesson do not find this to be a desirable behavior for students actively watching lectures and taking notes and backing up and rewatching segments. However, it is a core feature of Paella that cannot be disabled via config. Hence, we assign a no-op to `paella.player.controls.restartHideTimer`.
 
