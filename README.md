@@ -55,7 +55,7 @@ Dependencies
 
 dce-paella-extensions is a dependency that contains DCE-specific Paella changes.
 
-This project uses [NPM Shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap). It installs modules from the `npm-shrinkwrap.json` file, not the `package.json` file and will install the exact versions of the dependencies and subdependencies defined in `npm-shrinkwrap.json`. If you want to update dependencies, you must run `npm install --save <module name>@<version>` or `npm update --save <module name>` in order to update both `package.json` and `npm-shrinkwrap.json`.
+This project uses [NPM Shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap). It installs modules from the `npm-shrinkwrap.json` file, not the `package.json` file and will install the exact versions of the dependencies and subdependencies defined in `npm-shrinkwrap.json`. If you want to update dependencies, you must run `npm install --save <module name>@<version>` in order to update both `package.json` and `npm-shrinkwrap.json`.
 
 [player-router](https://github.com/harvard-dce/player-router) handles URL hash-based routing. app-src/index.js is the module within paella-matterhorn that handles webapp functionality external to Paella.
 
