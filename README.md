@@ -19,7 +19,7 @@ Prerequisites:
 - Run `npm install`.
 - Run `npm install -g grunt-cli` or `sudo npm install -g grunt-cli` if you cannot write to your global node_modules directory.
 
-You need to run `grunt` to build everything. Matterhorn's Maven (`mvn` ) process runs this Gruntfile via settings in `pom.xml`, too. `server.debug` is the default target because we do not currently minify for production.
+The OpsWorks build will run Maven (`mvn` ), which reads the `pom.xml` which tells it to run `grunt` to build everything. (For local development, you can just install Grunt yourself and  run `grunt` .)  `server.debug` is the default Grunt target because we do not currently minify for production.
 
 Among other things, it:
 
@@ -68,7 +68,9 @@ If you want to run paella-matterhorn locally without deploying it as a jar withi
 
 This will create a server that will serve local copies of files under `build/` and will serve a canned `episode.json` and `me.json`, but will proxy everything else (like series information) to matterhorn.dce.harvard.edu.
 
-To play a video in the test server, take a URL from production (matterhorn.dce.harvard.edu) and replace the host with localhost:3000. Make sure you use the https protocol.
+To play a video in the test server, take a URL from production (matterhorn.dce.harvard.edu) and replace the host with `localhost:3000`. Make sure you use the https protocol.
+
+If you want to run it under http instead of https, you can run the test server with `node test-server.js --use-http`.
 
 Tests
 -----
