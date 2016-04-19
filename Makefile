@@ -50,9 +50,11 @@ SMOKEFIREFOX = node_modules/.bin/tap-closer | \
 
 run-chrome-test: 
 	$(BROWSERIFYCMD) tests/parent-appriser-tests.js | $(SMOKECHROME)
+	$(BROWSERIFYCMD) -d tests/player-router-tests.js | $(SMOKECHROME)
 
 run-firefox-test:
 	$(BROWSERIFYCMD) tests/parent-appriser-tests.js | $(SMOKEFIREFOX)
+	$(BROWSERIFYCMD) -d tests/player-router-tests.js | $(SMOKEFIREFOX)
 
 test-chrome: build-app-index run-test-server-plain-http run-chrome-test kill-web-server
 

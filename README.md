@@ -53,7 +53,7 @@ To play a video in the test server, take a URL from production (matterhorn.dce.h
 Tests
 -----
 
-To run parent frame communcation tests, do:
+To run parent frame communcation and player router tests, do:
 
     npm install
     make test-chrome

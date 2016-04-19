@@ -1,4 +1,4 @@
-var initPlayerRouter = require('dce-player-router');
+var initPlayerRouter = require('./player-router/index');
 var pathExists = require('object-path-exists');
 var setUpParentFrameCommunications = require('./set-up-parent-frame-communications');
 
