@@ -11,15 +11,15 @@ Branches and tags
 - To add a feature or fix a bug, create a branch off of **master**. When it is ready to be reviewed and tested, create a pull request from it to master.
 - Tags are used to indicate which version of Paella this project is using. When you update the Paella submodule, tag paella-matterhorn with `paella` + the Paella tag + `-` + an hudce Matterhorn release version. i.e. `paella4.1.18/dceoc1.5.1-1.25.0`.
 
-Grunt
------
+Building
+--------
 
 Prerequisites:
 
 - Run `npm install`.
 - Run `npm install -g grunt-cli` or `sudo npm install -g grunt-cli` if you cannot write to your global node_modules directory.
 
-You need to run `grunt` to build everything. Matterhorn's maven process runs this Gruntfile, too. `server.debug` is the default target because we do not currently minify for production
+The OpsWorks build will run Maven (`mvn` ), which reads the `pom.xml` which tells it to run `grunt` to build everything. (For local development, you can just install Grunt yourself and  run `grunt` .)  `server.debug` is the default Grunt target because we do not currently minify for production.
 
 Among other things, it:
 
@@ -30,12 +30,32 @@ Among other things, it:
 - Concatenates the files from `paella-matterhorn/javascript` and `paella-matterhorn/plugins` into `paella_matterhorn.js`.
 - Concatenates localization json files together.
 
+*How to read the Makefile*
+
+[Make](https://bost.ocks.org/mike/make/) is a venerable and reliable Unix build tool. The Makefile format lets you specify targets that consist of:
+
+1. Unix commands
+2. Dependencies (other targets)
+
+For example, the `copy-extensions-to-paella` target does nothing itself but depends on five other targets, like `copy-vendor-extensions-to-paella`. `copy-vendor-extensions-to-paella` creates a `vendor` directory under the Paella submodule directory if it doesn't exist and copies files from `dce-paella-extensions` into it.
+
+    copy-extensions-to-paella: \
+      copy-vendor-extensions-to-paella \
+      copy-resources-to-paella \
+      copy-test-repository-to-paella \
+      copy-config-to-paella \
+      copy-skins-to-paella
+
+    copy-vendor-extensions-to-paella:
+      mkdir -p $(PAELLADIR)/vendor && \
+      cp -r $(EXTDIR)/vendor/* $(PAELLADIR)/vendor
+
 Dependencies
 ------------
 
-dce-paella-extensions is a dependency that contains DCE-specific Paella changes. Its version is specified as a tilde range, which means that NPM will install the latest version of dce-paella-extensions that matches the major and minor versions. e.g. If ~1.0.27 is the version in package.json, NPM will install the 1.0.30 if it is available. It will not install 1.1.0. You need to change the version in package.json if you want that version.
+dce-paella-extensions is a dependency that contains DCE-specific Paella changes.
 
-This project uses [NPM Shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap). It installs modules from the `npm-shrinkwrap.json` file, not the `package.json` file and will install the exact versions of the dependencies and subdependencies defined in `npm-shrinkwrap.json`. If you want to update dependencies, you must run `npm install --save <module name>@<version>` or `npm update --save <module name>` in order to update both `package.json` and `npm-shrinkwrap.json`.
+This project uses [NPM Shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap). It installs modules from the `npm-shrinkwrap.json` file, not the `package.json` file and will install the exact versions of the dependencies and subdependencies defined in `npm-shrinkwrap.json`. If you want to update dependencies, you must run `npm install --save <module name>@<version>` in order to update both `package.json` and `npm-shrinkwrap.json`. (`<module name>`  is the name of the dependency module you want to update. For example, dce-paella-extensions.)
 
 [player-router](https://github.com/harvard-dce/player-router) handles URL hash-based routing. app-src/index.js is the module within paella-matterhorn that handles webapp functionality external to Paella.
 
@@ -48,7 +68,9 @@ If you want to run paella-matterhorn locally without deploying it as a jar withi
 
 This will create a server that will serve local copies of files under `build/` and will serve a canned `episode.json` and `me.json`, but will proxy everything else (like series information) to matterhorn.dce.harvard.edu.
 
-To play a video in the test server, take a URL from production (matterhorn.dce.harvard.edu) and replace the host with localhost:3000. Make sure you use the https protocol.
+To play a video in the test server, take a URL from production (matterhorn.dce.harvard.edu) and replace the host with `localhost:3000`. Make sure you use the https protocol.
+
+If you want to run it under http instead of https, you can run the test server with `node test-server.js --use-http`.
 
 Tests
 -----
@@ -61,10 +83,42 @@ To run parent frame communcation tests, do:
 
 This should run the tests in Chrome and Firefox respectively, and in your terminal, you should see the test results.
 
+Much of the code in paella and paella-matterhorn are not covered by tests, so you do need to run locally and poke around to at least make sure you didn't break anything obvious when you make a change.
+
 Non-Paella parts of the project
 -------------------------------
 
 In `app-src`, there are modules that get built into `app-index.js` via Browserify. `app-index.js` gets pulled into the web page at [paella-matterhorn/ui/watch.html](https://github.com/harvard-dce/paella-matterhorn/blob/master/paella-matterhorn/ui/watch.html).
+
+These modules are [Node-style modules](https://nodejs.org/docs/latest/api/modules.html#modules_modules) that have these basic characteristics:
+
+- All of the code in a module is wrapped in its own JavaScript scope.
+- Modules can import other modules with `require` statements. e.g. In `app-src/index.js` –
+
+    var setUpParentFrameCommunications = require('./set-up-parent-frame-communications');
+
+Imports a function from the `set-up-parent-frame-communications.js` module into the index module.
+
+- Properties assigned to `modules.exports` are available to external modules that `require` the module.
+
+The `app-src/index.js` has a function that immediately executes when it's loaded. It is named `go`.
+
+    ((function go() {
+      setUpParentFrameCommunications(document);
+      disableAutoHiding();
+      clearDoneUrlCookie();
+      router.route();
+    })());
+
+These are entry points into the four things that the modules in `app-src` currently do:
+
+- It sets up communications with parent frames. When the player is loaded in an iframe, the player can A) respond to play messages from the parent window and B) can send time update messages to a parent window. [Here's an example of that in action.](http://jsbin.com/qomifisaba/edit?html,js,output)
+
+- Disables auto-hiding of the play controls after the player idles. DCE support and Rebecca Nesson do not find this to be a desirable behavior for students actively watching lectures and taking notes and backing up and rewatching segments. However, it is a core feature of Paella that cannot be disabled via config. Hence, we assign a no-op to `paella.player.controls.restartHideTimer`.
+
+- If it exists, it clears a cookie named `done_url` in order to prevent certain authentication problems. I forget specifically which, but Naomi Maekawa will probably remember if you ask her.
+
+- Runs the [DCE player-router](https://github.com/harvard-dce/player-router) in order to process the URL and respond to seek requests that are the result of URL changes from either the user or a parent window.
 
 Paella Player
 =============
