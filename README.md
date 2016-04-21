@@ -75,7 +75,7 @@ If you want to run it under http instead of https, you can run the test server w
 Tests
 -----
 
-To run parent frame communcation tests, do:
+To run parent frame communcation and player router tests, do:
 
     npm install
     make test-chrome
