@@ -4,9 +4,11 @@ var okSenders = [
 
 function createParentFrameListener(opts) {
   var playResponder;
+  var pauseResponder;
 
   if (opts) {
     playResponder = opts.playResponder;
+    pauseResponder = opts.pauseResponder;
   }
 
   if (window.parent !== window) {
@@ -24,6 +26,8 @@ function createParentFrameListener(opts) {
     }
     if (event.data.name === 'play') {
       playResponder();
+    } else if (event.data.name === 'pause') {
+      pauseResponder();
     }
   }
 }
