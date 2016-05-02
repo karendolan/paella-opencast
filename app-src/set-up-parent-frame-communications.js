@@ -5,7 +5,8 @@ function setUpParentFrameCommunications(document) {
   function setUpParentFrameListener() {
     $(document).off('paella:loadComplete', setUpParentFrameListener);
     createParentFrameListener({
-      playResponder: playVideos
+      playResponder: playVideos,
+      pauseResponder: pauseVideos
     });
   }
 
@@ -21,7 +22,11 @@ function setUpParentFrameCommunications(document) {
 }
 
 function playVideos() {
-  paella.player.videoContainer.play();
+  $(document).trigger(paella.events.play);
+}
+
+function pauseVideos() {
+  $(document).trigger(paella.events.pause);
 }
 
 module.exports = setUpParentFrameCommunications;
