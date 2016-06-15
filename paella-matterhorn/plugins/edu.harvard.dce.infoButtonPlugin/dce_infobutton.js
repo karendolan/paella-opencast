@@ -14,19 +14,29 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
     var thisClass = this;
 
     var popUp = jQuery('<div id="dce-info-popup"></div>');
-    var buttonActions =[ 'Help with this player', 'Report a problem', 'Feedback', 'All Course Videos' ];
+    var buttonActions =[ 'Help with this player', 'Report a problem', 'System status', 'Feedback', 'All Course Videos' ];
 
+    popUp.append(thisClass.getItemTitle());
     buttonActions.forEach(function(item){
-      jQuery(popUp).append(thisClass.getItemButton(item));
+      popUp.append(thisClass.getItemButton(item));
     });
     jQuery(domElement).append(popUp);
+  },
+
+  getItemTitle: function () {
+    var mpInfo = paella.matterhorn.episode.mediapackage;
+    var titleDiv = mpInfo.title ? '<span>' + mpInfo.title + '</span>' : '';
+    var seriesTitleDiv = mpInfo.seriestitle ? '<span>' + mpInfo.seriestitle + '</span>' : '';
+    var elem = jQuery('<div />');
+    elem.attr({'class': 'infoPubTitle'}).html(seriesTitleDiv + titleDiv);
+    return elem;
   },
 
   getItemButton: function (buttonAction) {
     var thisClass = this;
     var elem = jQuery('<div />');
-    jQuery(elem).attr({class: 'infoItemButton'}).text(buttonAction);
-    jQuery(elem).click(function (event) {
+    elem.attr({'class': 'infoItemButton'}).text(buttonAction);
+    elem.click(function (event) {
       thisClass.onItemClick(buttonAction);
     });
     return elem;
@@ -35,7 +45,8 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
   onItemClick: function (buttonAction) {
     switch (buttonAction) {
       case ('Help with this player'):
-        location.href = 'watchAbout.shtml';
+        var param = paella.player.isLiveStream() ? "show=live" : "show=vod";
+        window.open('watchAbout.shtml?' + param);
         break;
       case ('Report a problem'):
         var paramsP = 'ref=' + this.getVideoUrl() + '&server=MH';
@@ -46,7 +57,10 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
           paramsP += paella.matterhorn.episode.dcCreated ? '&cDate=' + paella.matterhorn.episode.dcCreated : '';
           paramsP += paella.matterhorn.episode.dcSpatial ? '&cAgent=' + paella.matterhorn.episode.dcSpatial : '';
         }
-        window.open('http://cm.dce.harvard.edu/forms/report.shtml?' + paramsP);
+        window.open('https://cm.dce.harvard.edu/forms/report.shtml?' + paramsP);
+        break;
+      case ('System status'):
+        window.open('http://status.dce.harvard.edu');
         break;
       case ('Feedback'):
         var params = 'ref=' + this.getVideoUrl() + '&server=MH';
@@ -57,7 +71,7 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
           params += paella.matterhorn.episode.dcCreated ? '&cDate=' + paella.matterhorn.episode.dcCreated : '';
           params += paella.matterhorn.episode.dcSpatial ? '&cAgent=' + paella.matterhorn.episode.dcSpatial : '';
         }
-        window.open('http://cm.dce.harvard.edu/forms/feedback.shtml?' + params);
+        window.open('https://cm.dce.harvard.edu/forms/feedback.shtml?' + params);
         break;
       case ('All Course Videos'):
         if (paella.matterhorn && paella.matterhorn.episode && paella.matterhorn.episode.dcIsPartOf){
