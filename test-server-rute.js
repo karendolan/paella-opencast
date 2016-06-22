@@ -12,7 +12,8 @@ if (process.argv.length > 2 && process.argv[2] === '--use-http') {
   useHTTPS = false;
 }
 
-var matterhornProxyURL = 'https://matterhorn.dce.harvard.edu/';
+//var matterhornProxyURL = 'https://matterhorn.dce.harvard.edu/';
+var matterhornProxyURL = 'http://10.10.10.50';
 var proxyOpts = {
   target: matterhornProxyURL
 };
@@ -46,7 +47,7 @@ var cannedVisualAnnotations = fs.readFileSync(
 );
 
 var cannedTimedComments = fs.readFileSync(
-  __dirname + '/fixtures/example-dce-timedcomment.json'
+  __dirname + '/fixtures/example-rute-timedcomment.json'
 );
 
 var cannedComments = fs.readFileSync(
@@ -71,39 +72,41 @@ var router = express.Router();
 
 // Handle login.html requests with a redirect.
 router.get('/login.html*', skipToContent);
-router.get('/info/me.json*', me);
+//router.get('/info/me.json*', me);
 
 // Serve a canned episode for episode requests.
-router.get('/search/episode.json*', episode);
+//router.get('/search/episode.json*', episode);
 
 // Serve a canned series for series requests.
-router.get('/search/series.json*', series);
+//router.get('/search/series.json*', series);
 
-router.get('/captions.dfxp', captions);
+//router.get('/captions.dfxp', captions);
 
 // Serve a canned episode for episode requests.
-router.get('/annotation/annotations.json*', annotations);
+//router.get('/annotation/annotations.json*', annotations);
 
 // Serve a canned episode after an annotation new comment update/write 
-router.put('/annotation/', annotations);
+//router.put('/annotation/', annotations);
 
 // Serve a canned episode after an annotation reply update/write 
-router.put('/annotation/[0-9]*', annotations);
+//router.put('/annotation/[0-9]*', annotations);
 
 // Serve a canned footprint for footprint requests.
-router.get('/usertracking/footprint.json*', footprint);
+//router.get('/usertracking/footprint.json*', footprint);
 
 // // Quitely consume the usertracking puts
 router.get('/usertracking/*', swallow);
 
 // // Quitely consume the footprint puts
-router.get('/footprint/*', swallow);
+//router.get('/footprint/*', swallow);
 
 // timed comments window
-router.get('/watch-timed-comments.html*', timedContentsPage);
+//router.get('/watch-timed-comments.html*', timedContentsPage);
 
 // Handle everything else with the proxy back to the Matterhorn server.
 router.get('/*', passToProxy);
+router.put('/*', passToProxy);
+router.post('/*', passToProxy);
 
 // Serve /engage/player/* requests from the local build folder.
 app.use('/engage/player', express.static('build'));

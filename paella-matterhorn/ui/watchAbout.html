@@ -63,6 +63,9 @@
         if (params.search(/show=live/i) > -1) {
           $(".vod").css("display", "none");
         }
+        if (params.search(/timedcomments/i) === -1) {
+          $(".timedcomments").css("display", "none");
+        }
       });
     </script>
   </head>
@@ -90,8 +93,9 @@
               <li class="all"><a href="#full_screen">Full screen mode</a></li>
               <li class="vod"><a href="#double_speed">Speeding up/down playback</a></li>
               <li class="all"><a href="#change_resolution">Video bandwidth resolution</a></li>
-              <li class="vod"><a href="#material_handouts">Material handouts</a></li>
+              <li class="vod"><a href="#material_handouts">Class handouts</a></li>
               <li class="vod"><a href="#captions">Closed captions</a></li>
+              <li class="timedcomments"><a href="#timedcomments">Student Public Timed Comments</a></li>
               <li class="all"><a href="#keyboard_shortcuts">Keyboard shortcuts</a></li>
               <li class="all"><a href="#help_menu">Help menu</a></li>
             </ul>
@@ -193,9 +197,9 @@
             </p>
           </div>
                    <div class="help_section vod" id="material_handouts">
-            <h2 >Material handouts</h2>
-            <p>A folder icon appears on the control bar if the publication contains an attached handout.
-              Click the folder to view the name of the attached file. Click the file link to download it. PDF files
+            <h2 >Class handouts</h2>
+            <p>A "Class Handout" link appears in the help menu if the publication contains an attached handout.
+              Click the "Class Handout" link to access the handout. PDF files
                 may open in another window instead of downloading.
             </p>
             <p>
@@ -206,9 +210,8 @@
 
           <div class="help_section vod" id="captions">
             <h2 >Captions</h2>
-            <p>A caption icon <img class="help" src="mh_dce_resources/images/CaptionIcon.jpg"
-              alt="Caption icon" /> appears on the control bar if the publication contains closed captions.
-              Click caption icon to enable captions.            </p>
+            <p>A closed caption icon (CC) appears on the control bar if the publication contains closed captions.
+              Click closed caption icon to enable captions.            </p>
             <p>
               <img class="help" src="mh_dce_resources/images/CaptionTurnOn.jpg"
                 alt="Turn on captions button" />
@@ -223,6 +226,17 @@
               <img class="help" src="mh_dce_resources/images/CaptionTurnOff.jpg"
                 alt="Turn on captions button" />
             </p>
+          </div>
+            
+            <div class="help_section timedcomments" id="timedcomments">
+                <h2 >Student Public Timed Comments</h2>
+                <p>This feature is new and in BETA stage. The "comments" button will appear on certain series for authenticated viewers. Click the button to view the 
+                    comments interface and to view and post public comments at time points in the lecture. 
+                Students can view and reply to each other's comments. Feedback and comments are welcome!</p>
+                <p>
+                    <img class="help" src="mh_dce_resources/images/TimedComments.jpg"
+                        alt="Timed Comments view" />
+                </p>
           </div>
 
           <div class="help_section all" id="help_menu">

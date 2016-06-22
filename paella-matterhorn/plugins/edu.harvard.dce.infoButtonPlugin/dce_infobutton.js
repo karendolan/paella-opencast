@@ -1,4 +1,7 @@
 Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
+  _classHandoutKey: 'Class Handout',
+  _classHandouts: [],
+  _privacyPolicyLink: 'https://www.extension.harvard.edu/privacy-policy',
   getAlignment: function () { return 'right'; },
   getSubclass: function () { return "showInfoPluginButton"; },
   getIndex: function () { return 501; },
@@ -6,7 +9,7 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
   getName: function () { return "edu.harvard.dce.paella.infoPlugin"; },
   checkEnabled: function (onSuccess) { onSuccess(true); },
   getDefaultToolTip: function () {
-    return paella.dictionary.translate("Help and Information about this page");
+    return paella.dictionary.translate("Information");
   },
   getButtonType:function() { return paella.ButtonPlugin.type.popUpButton; },
 
@@ -14,11 +17,13 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
     var thisClass = this;
 
     var popUp = jQuery('<div id="dce-info-popup"></div>');
-    var buttonActions =[ 'Help with this player', 'Report a problem', 'System status', 'Feedback', 'All Course Videos' ];
+    var buttonActions =[ 'About player', 'Report a problem', 'System status', 'Privacy policy', 'Feedback', thisClass._classHandoutKey, 'All Course Videos'];
 
     popUp.append(thisClass.getItemTitle());
     buttonActions.forEach(function(item){
-      popUp.append(thisClass.getItemButton(item));
+      if (thisClass.checkItemEnabled(item)) {
+        popUp.append(thisClass.getItemButton(item));
+      }
     });
     jQuery(domElement).append(popUp);
   },
@@ -44,9 +49,15 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
 
   onItemClick: function (buttonAction) {
     switch (buttonAction) {
-      case ('Help with this player'):
+      case ('About player'):
         var param = paella.player.isLiveStream() ? "show=live" : "show=vod";
+        if ((typeof paella.plugins.timedCommentsHeatmapPlugin != "undefined") && paella.plugins.timedCommentsHeatmapPlugin.isEnabled) { 
+          param = param + "&timedcomments";
+        }
         window.open('watchAbout.html?' + param);
+        break;
+      case ('Privacy policy'):
+        window.open(this._privacyPolicyLink);
         break;
       case ('Report a problem'):
         var paramsP = 'ref=' + this.getVideoUrl() + '&server=MH';
@@ -91,6 +102,13 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
           message = 'No other lectures found.';
           paella.messageBox.showMessage(message);
         }
+        break;
+      case (this._classHandoutKey):
+        // Only one handout enabled
+        if (this._classHandouts.length > 0) {
+          window.open(this._classHandouts[0].url);
+        }
+        break;
     }
     paella.events.trigger(paella.events.hidePopUp, {
       identifier: this.getName()
@@ -99,7 +117,36 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
 
   getVideoUrl: function () {
     return document.location.href;
+  },
+
+  checkItemEnabled: function(item) {
+    if (item === this._classHandoutKey) {
+       var isenabled = this.checkClassHandouts();
+       return isenabled;
+     }  else {
+       return true;
+     }
+  },
+
+  checkClassHandouts: function () {
+   // retrieve any attached handouts (type "attachment/notes")
+   var attachments = paella.matterhorn.episode.mediapackage.attachments.attachment;
+   if (!(attachments instanceof Array)) {
+     attachments =[attachments];
+   }
+   // Checking for multiple handouts, but only enabling one
+   for (var i = 0; i < attachments.length;++ i) {
+     var attachment = attachments[i];
+     if (attachment !== undefined) {
+       if (attachment.type == "attachment/notes") {
+         this._classHandouts.push(attachment);
+       }
+     }
+    }
+    var isenabled = (this._classHandouts.length > 0 );
+		return isenabled;
   }
+
 });
 
 paella.plugins.infoPlugin = new paella.plugins.InfoPlugin();

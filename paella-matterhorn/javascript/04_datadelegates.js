@@ -27,6 +27,7 @@ paella.dataDelegates.MHAnnotationServiceDefaultDataDelegate = Class.create(paell
 		);
 	},
 
+  // #DCE note: This saves annotations as public in a digest format with question/answer.
 	write:function(context,params,value,onSuccess) {
 		var thisClass = this;
 		var episodeId = params.id;
@@ -37,14 +38,14 @@ paella.dataDelegates.MHAnnotationServiceDefaultDataDelegate = Class.create(paell
 				var annotations = data.annotations.annotation;
 				if (annotations == undefined) {annotations = [];}
 				if (!(annotations instanceof Array)) { annotations = [annotations]; }
-				
+
 				if (annotations.length == 0 ) {
 					paella.ajax.put({ url: '/annotation/',
 						params: {
 							episode: episodeId, 
 							type: 'paella/' + context,
 							value: value,
-							'in': 0
+							'in':0
 						}},	
 						function(data, contentType, returnCode) { onSuccess({}, true); },
 						function(data, contentType, returnCode) { onSuccess({}, false); }
@@ -216,7 +217,7 @@ paella.dataDelegates.UserDataDelegate = Class.create(paella.DataDelegate,{
 			userName: params.username,
 			name: params.username,
 			lastname: '',
-			avatar:"plugins/silhouette32.png"
+			avatar:"mh_dce_resources/images/silhouette32.png"
 		};
 		
         if (typeof(onSuccess)=='function') { onSuccess(value,true); }
@@ -332,8 +333,11 @@ paella.dataDelegates.MHCaptionsDataDelegate = Class.create(paella.DataDelegate,{
 paella.dataDelegates.MHFootPrintsDataDelegate = Class.create(paella.DataDelegate,{
 	read:function(context,params,onSuccess) {
 		var episodeId = params.id;
-		
-		paella.ajax.get({url: '/usertracking/footprint.json', params: {id: episodeId}},	
+		if (!episodeId) {
+		  // Don't make the query if no mpId
+		  if (onSuccess) { onSuccess({}, false); }
+		}
+		paella.ajax.get({url: '/usertracking/footprint.json', params: {id: episodeId}},
 			function(data, contentType, returnCode) { 				
 				if ((returnCode == 200) && (contentType == 'application/json')) {
 					var footPrintsData = data.footprints.footprint;
@@ -355,14 +359,15 @@ paella.dataDelegates.MHFootPrintsDataDelegate = Class.create(paella.DataDelegate
 	write:function(context,params,value,onSuccess) {
 		var thisClass = this;
 		var episodeId = params.id;
-		// #DCE correct js syntax on reserved term: 'in'
-		var inpoint = value['in'];
+		var invalue = value['in'];
+		var outvalue = value['out'];
+		
 		paella.ajax.get({url: '/usertracking/', params: {
 					_method: 'PUT',
 					id: episodeId,
 					type:'FOOTPRINT',
-					'in':value.in,
-					out:value.out }
+					'in':invalue,
+					out:outvalue}
 			},
 			function(data, contentType, returnCode) {
 				var ret = false;
