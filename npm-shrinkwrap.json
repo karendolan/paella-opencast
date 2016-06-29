@@ -637,8 +637,8 @@
       "resolved": "https://registry.npmjs.org/dateformat/-/dateformat-1.0.2-1.2.3.tgz"
     },
     "dce-paella-extensions": {
-      "version": "1.2.68",
-      "from": "dce-paella-extensions@1.2.68"
+      "version": "1.2.70",
+      "from": "dce-paella-extensions@1.2.70"
     },
     "debug": {
       "version": "2.2.0",
