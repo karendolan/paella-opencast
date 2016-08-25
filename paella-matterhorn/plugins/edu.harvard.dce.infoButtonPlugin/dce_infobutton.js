@@ -46,7 +46,7 @@ Class ('paella.plugins.InfoPlugin', paella.ButtonPlugin,{
     switch (buttonAction) {
       case ('Help with this player'):
         var param = paella.player.isLiveStream() ? "show=live" : "show=vod";
-        window.open('watchAbout.shtml?' + param);
+        window.open('watchAbout.html?' + param);
         break;
       case ('Report a problem'):
         var paramsP = 'ref=' + this.getVideoUrl() + '&server=MH';

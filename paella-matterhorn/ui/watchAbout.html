@@ -263,16 +263,21 @@
       </div>
       <!-- end container -->
       <div id="paellaExtendedFooter">
-
         <div id="footer" class="row">
           <div id="footer-privacy">
-            <a href="http://www.extension.harvard.edu/help/privacy.jsp">Privacy Statement</a>
-            &#160;|&#160; <a href="http://www.extension.harvard.edu/open-learning-initiative/terms-of-use">Terms and Conditions</a>
+            <a href="http://www.extension.harvard.edu/privacy-policy">Privacy Policy</a>
+            &#160;|&#160; <a href="/engage/ui/#/tos">Terms of Use</a>
           </div>
-          <div id="footer-copyright"> &#169; 2016-17 President and Fellows of Harvard College</div>
+          <div id="footer-copyright"> &#169; <span id="copyright-year">2016</span> President and Fellows of Harvard College</div>
         </div>
         <!-- END #footer -->
-
       </div>
+      <script type="text/javascript">
+        var copyrightyear = document.getElementById('copyright-year');
+        if (copyrightyear) {
+          copyrightyear.innerHTML = new Date().getFullYear();
+        }
+      </script>
     </body>
   </html>
+
