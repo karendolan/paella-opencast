@@ -1,6 +1,6 @@
 {
   "name": "paella-engage-ui",
-  "version": "4.0.15",
+  "version": "4.0.16",
   "dependencies": {
     "abbrev": {
       "version": "1.0.7",
