@@ -1,6 +1,6 @@
 new (Class (paella.userTracking.SaverPlugIn, {
 	getName: function() { return "es.upv.paella.opencast.userTrackingSaverPlugIn"; },
-	
+
 	checkEnabled: function(onSuccess) {
 		paella.ajax.get({url:'/usertracking/detailenabled'},
 			function(data, contentType, returnCode) {
@@ -16,10 +16,10 @@ new (Class (paella.userTracking.SaverPlugIn, {
 			}
 		);	
 	},
-	
+
 	log: function(event, params) {
 		paella.player.videoContainer.currentTime().then(function(ct){
-			var videoCurrentTime = parseInt(ct + paella.player.videoContainer.trimStart());		
+			var videoCurrentTime = parseInt(ct + paella.player.videoContainer.trimStart());
 			var opencastLog = {
 				_method: 'PUT',
 				'id': paella.player.videoIdentifier,
@@ -28,7 +28,7 @@ new (Class (paella.userTracking.SaverPlugIn, {
 				'out': videoCurrentTime,
 				'playing': !paella.player.videoContainer.paused()
 			};
-			
+
 			switch (event) {
 				case paella.events.play:
 					opencastLog.type = 'PLAY';
@@ -49,7 +49,7 @@ new (Class (paella.userTracking.SaverPlugIn, {
 				default:
 					opencastLog.type = event;
 					opt = params;
-					if (opt != undefined) {				
+					if (opt != undefined) {
 						if (typeof(params) == "object") {
 							opt = JSON.stringify(params);
 						}
@@ -60,6 +60,6 @@ new (Class (paella.userTracking.SaverPlugIn, {
 			opencastLog.type = opencastLog.type.substr(0, 128);
 			//console.log(opencastLog);
 			paella.ajax.get( {url: '/usertracking/', params: opencastLog});
-		});		
+		});
 	}
 }))();
