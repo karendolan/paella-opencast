@@ -127,7 +127,10 @@ Class ("paella.PlaybackBar", paella.DomNode,{
 		$(playbackFull.domElement).bind('mouseup',function(event) { paella.utils.mouseManager.up(event); });
 
 		if (paella.player.isLiveStream()) {
-			$(this.domElement).hide();
+			// #DCE visibility:hiden vs display:none
+			//$(this.domElement).hide();
+			$(this.domElement).css("visibility", "hidden");
+			// #DCE
 		}
 		setTimeout(function(){
 			self.drawTimeMarks();
