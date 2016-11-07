@@ -26,7 +26,7 @@ paella.opencast = new (Class ({
 	
 	getEpisode: function() {
 		var self = this;
-		var defer = new $.Deferred();		
+		var defer = new $.Deferred();
 
 		if (self._episode) {
 			defer.resolve(self._episode);
@@ -40,21 +40,21 @@ paella.opencast = new (Class ({
 					if (typeof (jsonData) == "string") jsonData = JSON.parse(jsonData);
 					// test if result is Harvard auth or episode data
 					if (! self.isHarvardDceAuth(jsonData)) {
-						defer.reject();
+						return defer.reject(jsonData);
 					}
 					// #DCE end auth check
 					// #DCE verify that results returned at least one episode
 					var totalItems = parseInt(data['search-results'].total);
 					if (totalItems === 0) {
 						self.showLoadErrorMessage(paella.dictionary.translate("No recordings found for episode id") + ": \"" + episodeId + "\"");
-						defer.reject();
+						return defer.reject();
 					}
 					// #DCE end total check
 					if (data['search-results'].result) {
 						self._episode = data['search-results'].result;
 						// #DCE set logger helper
 						self.setHarvardDCEresourceId(self._episode);
-						defer.resolve(self._episode);		
+						return defer.resolve(self._episode);
 					}
 					else {
 						defer.reject();
@@ -65,7 +65,7 @@ paella.opencast = new (Class ({
 				}
 			);
 		}		
-		return defer;		
+		return defer;
 	},
 	
 	
@@ -136,29 +136,35 @@ paella.opencast = new (Class ({
             // auth-results not present, some other error
             if (authResultsAvailable === false) {
                 paella.debug.log("Seach failed, response:  " + jsonData);
-                
                 var message = "Cannot access specified video; authorization failed (" + jsonData + ")";
                 paella.messageBox.showError(message);
                 $(document).trigger(paella.events.error, {
                     error: message
                 });
-                return false;
             }
-            
-            // auth-results present, dealing with auth errors
-            var authResult = jsonData[ 'dce-auth-results'];
-            var returnStatus = authResult.dceReturnStatus;
-            if (("401" == returnStatus || "403" == returnStatus) && authResult.dceLocation) {
-                window.location.replace(authResult.dceLocation);
-            } else {
-                paella.messageBox.showError(authResult.dceErrorMessage);
-                $(document).trigger(paella.events.error, {
-                    error: authResult.dceErrorMessage
-                });
-            }
+            // (MATT-2212) DCE auth redirect is performed within the getEpisode() failure path (via isHarvardDceAuthRedirect below)
             return false;
         } else {
             return true;
+        }
+    },
+    // This method is used when getEpisode fails in order to determine if auth redirect is possible (MATT-2212)
+    isHarvardDceAuthRedirect: function (jsonData) {
+        if (jsonData && jsonData[ 'dce-auth-results']) {
+            var authResult = jsonData[ 'dce-auth-results'];
+            if (authResult && authResult.dceReturnStatus) {
+                var returnStatus = authResult.dceReturnStatus;
+                if (("401" == returnStatus || "403" == returnStatus) && authResult.dceLocation) {
+                    window.location.replace(authResult.dceLocation);
+                } else {
+                    var message = "Cannot access specified video; authorization failed (" + authResult.dceErrorMessage + ")";
+                    paella.debug.log(message);
+                    paella.messageBox.showError(message);
+                    $(document).trigger(paella.events.error, {
+                        error: message
+                    });
+                }
+            }
         }
     },
     // #DCE(naomi): end of dce auth addition
