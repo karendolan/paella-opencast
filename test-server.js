@@ -24,7 +24,8 @@ var mostRecentWatchReqUrl;
 var cannedEpisode = jsonfile.readFileSync(
   // __dirname + '/fixtures/example-episode.json'
   // __dirname + '/fixtures/example-live-episode.json'
-  __dirname + '/fixtures/example-captions-episode.json'
+  //__dirname + '/fixtures/example-captions-episode.json'
+  __dirname + '/fixtures/example-empty-captions-episode.json'
 );
 
 var cannedSeries = jsonfile.readFileSync(
@@ -37,6 +38,10 @@ var cannedMe = jsonfile.readFileSync(
 
 var cannedCaptions = fs.readFileSync(
   __dirname + '/fixtures/captions.dfxp'
+);
+
+var cannedEmptyCaptions = fs.readFileSync(
+  __dirname + '/fixtures/test-catalogs/emptyWatsonCatalog.xml'
 );
 
 var cannedAnnotations = fs.readFileSync(
@@ -68,6 +73,9 @@ var app = express();
 var router = express.Router();
 
 // Handle login.html requests with a redirect.
+
+router.get('/favicon.ico', swallow);
+
 router.get('/login.html*', skipToContent);
 router.get('/info/me.json*', me);
 
@@ -143,7 +151,8 @@ function series(req, res) {
 function captions(req, res) {
   log('Serving captions.');
   res.header('Content-Type', 'text/xml');
-  res.end(cannedCaptions);
+  //res.end(cannedCaptions);
+  res.end(cannedEmptyCaptions);
 }
 
 function footprint(req, res) {
