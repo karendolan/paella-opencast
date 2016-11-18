@@ -25,7 +25,8 @@ var cannedEpisode = jsonfile.readFileSync(
   // __dirname + '/fixtures/example-episode.json'
   // __dirname + '/fixtures/example-live-episode.json'
   //__dirname + '/fixtures/example-captions-episode.json'
-  __dirname + '/fixtures/example-empty-captions-episode.json'
+  //__dirname + '/fixtures/example-empty-captions-episode.json'
+  __dirname + '/fixtures/example-captions-DASH-episode.json'
 );
 
 var cannedSeries = jsonfile.readFileSync(
