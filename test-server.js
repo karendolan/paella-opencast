@@ -26,6 +26,7 @@ var cannedEpisode = jsonfile.readFileSync(
   // __dirname + '/fixtures/example-live-episode.json'
   //__dirname + '/fixtures/example-captions-episode.json'
   __dirname + '/fixtures/example-empty-captions-episode.json'
+  //__dirname + '/fixtures/example-captions-DASH-episode.json'
 );
 
 var cannedSeries = jsonfile.readFileSync(
@@ -64,6 +65,10 @@ var cannedHeartbeatFootprints = fs.readFileSync(
   __dirname + '/fixtures/example-paella-footprint.json'
 );
 
+var cannedSvg = fs.readFileSync(
+  __dirname + '/fixtures/images/Identicon.svg'
+);
+
 var proxy = httpProxy.createProxyServer({
   secure: false
 });
@@ -78,6 +83,8 @@ router.get('/favicon.ico', swallow);
 
 router.get('/login.html*', skipToContent);
 router.get('/info/me.json*', me);
+
+router.get('/engage/player/resources/images/Identicon.svg', svg);
 
 // Serve a canned episode for episode requests.
 router.get('/search/episode.json*', episode);
@@ -137,6 +144,11 @@ function episode(req, res) {
   log('Serving episode.');
   res.json(cannedEpisode);
 }
+
+function svg(req, res) {
+  res.end(cannedSvg);
+}
+
 
 function me(req, res) {
   log('Serving me.json.');
