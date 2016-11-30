@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Generated with https://github.com/google/shaka-packager version c3d1dc1-debug-->
+<MPD xmlns="urn:mpeg:dash:schema:mpd:2011" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 DASH-MPD.xsd" xmlns:cenc="urn:mpeg:cenc:2013" minBufferTime="PT2S" type="static" profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" mediaPresentationDuration="PT5226.7998046875S">
+  <Period id="0">
+    <AdaptationSet id="0" contentType="video" maxWidth="1280" maxHeight="720" maxFrameRate="15360/512" par="16:9">
+      <Representation id="0" bandwidth="84228" codecs="avc1.42c00d" mimeType="video/mp4" sar="1:1" width="320" height="180" frameRate="15360/512">
+        <BaseURL>video_180.mp4</BaseURL>
+        <SegmentBase indexRange="807-7114" timescale="15360">
+          <Initialization range="0-806"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="2" bandwidth="361668" codecs="avc1.640015" mimeType="video/mp4" sar="1:1" width="480" height="270" frameRate="15360/1024">
+        <BaseURL>video_270.mp4</BaseURL>
+        <SegmentBase indexRange="809-7116" timescale="15360">
+          <Initialization range="0-808"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="4" bandwidth="731871" codecs="avc1.64001e" mimeType="video/mp4" sar="1:1" width="640" height="360" frameRate="15360/512">
+        <BaseURL>video_360.mp4</BaseURL>
+        <SegmentBase indexRange="809-7116" timescale="15360">
+          <Initialization range="0-808"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="6" bandwidth="1098573" codecs="avc1.64001e" mimeType="video/mp4" sar="1:1" width="768" height="432" frameRate="15360/512">
+        <BaseURL>video_432.mp4</BaseURL>
+        <SegmentBase indexRange="808-7115" timescale="15360">
+          <Initialization range="0-807"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="8" bandwidth="1987404" codecs="avc1.64001f" mimeType="video/mp4" sar="1:1" width="960" height="540" frameRate="15360/512">
+        <BaseURL>video_540.mp4</BaseURL>
+        <SegmentBase indexRange="809-7116" timescale="15360">
+          <Initialization range="0-808"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="10" bandwidth="2992027" codecs="avc1.64001f" mimeType="video/mp4" sar="1:1" width="1280" height="720" frameRate="15360/512">
+        <BaseURL>video_720.mp4</BaseURL>
+        <SegmentBase indexRange="809-7116" timescale="15360">
+          <Initialization range="0-808"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="12" bandwidth="4478168" codecs="avc1.64001f" mimeType="video/mp4" sar="1:1" width="1280" height="720" frameRate="15360/512">
+        <BaseURL>video_720x.mp4</BaseURL>
+        <SegmentBase indexRange="809-7116" timescale="15360">
+          <Initialization range="0-808"/>
+        </SegmentBase>
+      </Representation>
+    </AdaptationSet>
+    <AdaptationSet id="1" contentType="audio" subsegmentAlignment="true">
+      <Representation id="1" bandwidth="65474" codecs="mp4a.40.2" mimeType="audio/mp4" audioSamplingRate="44100">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+        <BaseURL>audio_64k.mp4</BaseURL>
+        <SegmentBase indexRange="740-7047" timescale="44100">
+          <Initialization range="0-739"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="3" bandwidth="65474" codecs="mp4a.40.2" mimeType="audio/mp4" audioSamplingRate="44100">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+        <BaseURL>audio_64k.mp4</BaseURL>
+        <SegmentBase indexRange="740-7047" timescale="44100">
+          <Initialization range="0-739"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="5" bandwidth="65474" codecs="mp4a.40.2" mimeType="audio/mp4" audioSamplingRate="44100">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+        <BaseURL>audio_64k.mp4</BaseURL>
+        <SegmentBase indexRange="740-7047" timescale="44100">
+          <Initialization range="0-739"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="7" bandwidth="97473" codecs="mp4a.40.2" mimeType="audio/mp4" audioSamplingRate="44100">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+        <BaseURL>audio_96k.mp4</BaseURL>
+        <SegmentBase indexRange="740-7047" timescale="44100">
+          <Initialization range="0-739"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="9" bandwidth="97473" codecs="mp4a.40.2" mimeType="audio/mp4" audioSamplingRate="44100">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+        <BaseURL>audio_96k.mp4</BaseURL>
+        <SegmentBase indexRange="740-7047" timescale="44100">
+          <Initialization range="0-739"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="11" bandwidth="97473" codecs="mp4a.40.2" mimeType="audio/mp4" audioSamplingRate="44100">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+        <BaseURL>audio_96k.mp4</BaseURL>
+        <SegmentBase indexRange="740-7047" timescale="44100">
+          <Initialization range="0-739"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="13" bandwidth="129473" codecs="mp4a.40.2" mimeType="audio/mp4" audioSamplingRate="44100">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+        <BaseURL>audio_128k.mp4</BaseURL>
+        <SegmentBase indexRange="740-7047" timescale="44100">
+          <Initialization range="0-739"/>
+        </SegmentBase>
+      </Representation>
+    </AdaptationSet>
+  </Period>
+</MPD>
