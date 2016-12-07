@@ -25,7 +25,7 @@ var cannedEpisode = jsonfile.readFileSync(
   // __dirname + '/fixtures/example-episode.json'
   // __dirname + '/fixtures/example-live-episode.json'
   //__dirname + '/fixtures/example-captions-episode.json'
-  __dirname + '/fixtures/example-empty-captions-episode.json'
+  __dirname + '/fixtures/example-UX-bigbuckbunny.json'
   //__dirname + '/fixtures/example-captions-DASH-episode.json'
 );
 
@@ -54,7 +54,7 @@ var cannedVisualAnnotations = fs.readFileSync(
 );
 
 var cannedTimedComments = fs.readFileSync(
-  __dirname + '/fixtures/example-dce-timedcomment.json'
+  __dirname + '/fixtures/example-UX-timedcomment.json'
 );
 
 var cannedComments = fs.readFileSync(
